@@ -22,12 +22,12 @@ body {
   scroll-behavior:smooth; 
 }
 header { 
-  position:sticky; 
-  top:0; 
-  background:#121212; 
-  z-index:1000; 
   text-align:center; 
   padding:1rem 0; 
+  position:sticky; 
+  top:0; 
+  z-index:1000; 
+  background:#121212; 
 }
 header a { 
   color:#ddd; 
@@ -36,7 +36,7 @@ header a {
 }
 .banner-link img { 
   display:block; 
-  margin:0.5rem auto; 
+  margin:0 auto; 
   max-width:100%; 
   height:auto; 
   border-radius:8px; 
@@ -146,6 +146,8 @@ const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
+let imagesShown = false;
+
 function setBannerImage(show = true) {
   const banner = document.getElementById('bannerImg');
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
@@ -153,33 +155,54 @@ function setBannerImage(show = true) {
   banner.src = show ? bannerUrl : '';
 }
 
-function toggleWorkImages() {
+function toggleWorkImages(show) {
   document.querySelectorAll('.work-card').forEach(card => {
     const imgUrl = card.dataset.img;
     if (!imgUrl) return;
     let img = card.querySelector('img');
-    if (img) { 
-      img.remove(); 
-    } else {
+    if (show && !img) {
       img = document.createElement('img'); 
       img.src = imgUrl; 
       img.alt = card.querySelector('h3').textContent; 
       card.prepend(img);
+    } else if (!show && img) {
+      img.remove();
     }
   });
 }
 
 document.getElementById('showImages').addEventListener('click', () => {
-  const banner = document.getElementById('bannerImg');
-  if (!banner.src) {
-    setBannerImage(true);
-  } else {
-    setBannerImage(false);
-  }
-  toggleWorkImages();
+  imagesShown = !imagesShown;
+  setBannerImage(imagesShown);
+  toggleWorkImages(imagesShown);
 });
 
-window.addEventListener('load', () => setBannerImage(true));
+window.addEventListener('load', () => {
+  imagesShown = true;
+  setBannerImage(true);
+  toggleWorkImages(true);
+});
+
+function checkRedirect() {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  const host = window.location.host;
+
+  if (!host.includes('lite.hamusata.f5.si') && !host.includes('m-lite.hamusata.f5.si')) return;
+
+  if (isMobile && host !== 'm-lite.hamusata.f5.si') {
+    window.location.href = 'https://m-lite.hamusata.f5.si';
+    return;
+  }
+
+  if (!isMobile && host !== 'lite.hamusata.f5.si') {
+    window.location.href = 'https://lite.hamusata.f5.si';
+    return;
+  }
+}
+
+window.addEventListener('load', checkRedirect);
+window.addEventListener('resize', checkRedirect);
+window.addEventListener('orientationchange', checkRedirect);
 </script>
 
 </body>
