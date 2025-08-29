@@ -70,8 +70,14 @@ footer {
 const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
-if(window.location.host !== 'hamusata.f5.si'){
-  window.location.href = 'https://hamusata.f5.si/s/index.html';
+
+const host = window.location.host;
+const path = window.location.pathname + window.location.search + window.location.hash;
+const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+if(host !== 'lite.hamusata.f5.si' && host !== 'm-lite.hamusata.f5.si'){
+  const targetHost = isMobile ? 'm-lite.hamusata.f5.si' : 'lite.hamusata.f5.si';
+  window.location.href = `https://${targetHost}${path}`;
 }
 </script>
 
