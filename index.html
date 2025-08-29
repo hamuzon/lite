@@ -41,9 +41,10 @@ section h2 { font-size:1.8rem; margin-bottom:1rem; color:#aaa; }
 
 #profile p { margin:0.5rem auto; max-width:700px; color:#ccc; }
 
-.work-card { background:#1f1f1f; padding:1rem; border-radius:8px; text-align:center; margin-bottom:1rem; transition:0.3s; }
-.work-card a { display:inline-block; margin-top:0.5rem; padding:0.5rem 1rem; background:#444; color:#ddd; text-decoration:none; border-radius:8px; }
-.work-card a:hover { background:#555; color:#fff; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-top:1rem; }
+.card { background:#1f1f1f; padding:1rem; border-radius:8px; text-align:center; transition:0.3s; }
+.card a { display:block; font-weight:bold; margin-top:0.5rem; padding:0.5rem 1rem; background:#444; color:#ddd; text-decoration:none; border-radius:8px; transition:0.3s; }
+.card a:hover { background:#555; color:#fff; }
 
 footer { text-align:center; padding:2rem 1rem; color:#aaa; font-size:0.9rem; }
 footer a { color:#888; text-decoration:underline; }
@@ -56,8 +57,6 @@ footer a { color:#888; text-decoration:underline; }
 <header>
 <div id="bannerContainer">
 <img id="bannerImg" src="https://m.hamusata.f5.si/banner_icon_hamusata.png"
-                 data-img-desktop="https://hamusata.f5.si/banner_icon_hamusata.png"
-                 data-img-mobile="https://m.hamusata.f5.si/banner_icon_hamusata.png"
                  alt="hamusata home banner">
 </div>
 <button id="toggleBanner">画像表示/非表示</button>
@@ -74,11 +73,27 @@ footer a { color:#888; text-decoration:underline; }
 <a href="https://hamusata.f5.si" style="display:inline-block;margin-top:0.8rem;padding:0.5rem 1rem;background:#444;color:#ddd;text-decoration:none;border-radius:6px;">通常版を見る</a>
 </section>
 
-<section id="portfolio">
-<h2>簡易リンク</h2>
-<div class="work-card">
-<h3>ランダム作品</h3>
-<a href="https://hamusata.f5.si/random">開く / Open</a>
+<section id="links">
+<h2>作品一覧 / Links</h2>
+<div class="cards">
+  <div class="card">
+    <a href="https://home.hamusata.f5.si">home.hamusata.f5.si</a>
+  </div>
+  <div class="card">
+    <a href="https://hamusata.f5.si">hamusata.f5.si系作品一覧</a>
+  </div>
+  <div class="card">
+    <a href="https://hamuzon.github.io">hamuzon.github.io</a>
+  </div>
+  <div class="card">
+    <a href="https://hamuzon.github.io">hamuzon.github.io系列作品一覧</a>
+  </div>
+  <div class="card">
+    <a href="https://www.link-s.f5.si">www.link-s.f5.si</a>
+  </div>
+  <div class="card">
+    <a href="https://link-s.f5.si">link-s.f5.si系列作品一覧</a>
+  </div>
 </div>
 </section>
 
@@ -96,7 +111,7 @@ document.getElementById('toggleBanner').addEventListener('click', () => {
   banner.style.display = (banner.style.display === 'none') ? 'block' : 'none';
 });
 
-// PC/スマホ判定リダイレクト
+// PC/スマホ判定リダイレクト（m-lite.hamusata.f5.si と lite.hamusata.f5.si のみ）
 function checkRedirect() {
   const allowedHosts = ['m-lite.hamusata.f5.si', 'lite.hamusata.f5.si'];
   if (!allowedHosts.includes(window.location.host)) return;
