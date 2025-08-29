@@ -34,7 +34,9 @@ a {
   text-decoration:none;
   font-size:0.9rem;
 }
-a:hover { color:#1a5fff; }
+a:hover {
+  color:#1a5fff;
+}
 footer {
   text-align:center;
   color:#888;
@@ -64,9 +66,20 @@ footer {
 </footer>
 
 <script>
-const baseYear=2025;
-const currentYear=new Date().getFullYear();
-document.getElementById("year").textContent=currentYear>baseYear?`${baseYear}~${currentYear}`:`${baseYear}`;
+const baseYear = 2025;
+const currentYear = new Date().getFullYear();
+document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+
+(function() {
+  const key = 'redirected';
+  if(localStorage.getItem(key)) return;
+  const host = window.location.host;
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  if((host === 'm-lite.hamusata.f5.si' && isMobile) || (host === 'lite.hamusata.f5.si' && !isMobile)) return;
+  const target = isMobile ? 'https://m-lite.hamusata.f5.si/s/index.html' : 'https://lite.hamusata.f5.si/s/index.html';
+  localStorage.setItem(key, '1');
+  window.location.href = target;
+})();
 </script>
 
 </body>
