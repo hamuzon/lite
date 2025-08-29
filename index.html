@@ -8,20 +8,17 @@
 <link rel="icon" href="https://hamusata.f5.si/icon.svg" type="image/svg+xml">
 <link rel="icon" href="https://hamusata.f5.si/icon.png" type="image/png">
 
-<meta name="description" content="HAMUSATA.f5.si Lite版ホームページです / This is the lite homepage">
-
 <style>
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Potta One', sans-serif; }
 body { min-height:100vh; background:#121212; color:#ddd; line-height:1.6; scroll-behavior:smooth; }
 
-/* バナー画像・リンクバー */
+/* ヘッダー・バナー */
 header { text-align:center; padding:1rem 0; }
-#bannerContainer img { display:none; max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.18); }
+#bannerContainer img { display:block; max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.18); }
+#toggleBanner { margin-top:0.5rem; padding:0.5rem 1rem; cursor:pointer; background:#444; color:#ddd; border:none; border-radius:6px; transition:0.3s; }
+#toggleBanner:hover { background:#555; color:#fff; }
 
-#showImages { margin-top:0.5rem; padding:0.5rem 1rem; cursor:pointer; background:#444; color:#ddd; border:none; border-radius:6px; transition:0.3s; }
-#showImages:hover { background:#555; color:#fff; }
-
-/* 常時固定リンクバー */
+/* 固定リンクバー */
 #fixedLinks {
   position: sticky;
   top: 0;
@@ -44,9 +41,14 @@ header { text-align:center; padding:1rem 0; }
 }
 #fixedLinks a:hover { background:#555; color:#fff; }
 
+/* セクション */
 section { max-width:1000px; margin:2rem auto; padding:0 1rem; text-align:center; }
 section h2 { font-size:1.8rem; margin-bottom:1rem; color:#aaa; }
 
+/* 自己紹介 */
+#profile p { margin:0.5rem auto; max-width:700px; color:#ccc; }
+
+/* ポートフォリオカード */
 .work-card { background:#1f1f1f; padding:1rem; border-radius:8px; text-align:center; margin-bottom:1rem; transition:0.3s; }
 .work-card a { display:inline-block; margin-top:0.5rem; padding:0.5rem 1rem; background:#444; color:#ddd; text-decoration:none; border-radius:8px; }
 .work-card a:hover { background:#555; color:#fff; }
@@ -65,10 +67,9 @@ footer a { color:#888; text-decoration:underline; }
                  data-img-mobile="https://m.hamusata.f5.si/banner_icon_hamusata.png"
                  alt="hamusata home banner">
 </div>
-<button id="showImages">画像表示/非表示</button>
+<button id="toggleBanner">画像表示/非表示</button>
 </header>
 
-<!-- 常時固定リンクバー -->
 <div id="fixedLinks">
   <a href="https://home.hamusata.f5.si">ホーム</a>
   <a href="https://hamuzon.github.io">GitHub Pages</a>
@@ -100,8 +101,8 @@ const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
-// バナー画像表示/非表示
-document.getElementById('showImages').addEventListener('click', () => {
+// バナー表示/非表示
+document.getElementById('toggleBanner').addEventListener('click', () => {
   const banner = document.getElementById('bannerImg');
   if(banner.src) {
     banner.src = '';
@@ -111,7 +112,7 @@ document.getElementById('showImages').addEventListener('click', () => {
   }
 });
 
-// Lite版 PC/スマホリダイレクト
+// Lite版リダイレクト
 function checkRedirect() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
   const host = window.location.host;
@@ -121,6 +122,8 @@ function checkRedirect() {
   window.location.href = target;
 }
 window.addEventListener('load', checkRedirect);
+window.addEventListener('resize', checkRedirect);
+window.addEventListener('orientationchange', checkRedirect);
 </script>
 
 </body>
