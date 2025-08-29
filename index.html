@@ -22,16 +22,21 @@ body {
   scroll-behavior:smooth; 
 }
 header { 
-  text-align:center; 
-  padding:1rem 0; 
   position:sticky; 
   top:0; 
-  z-index:1000; 
   background:#121212; 
+  z-index:1000; 
+  text-align:center; 
+  padding:1rem 0; 
+}
+header a { 
+  color:#ddd; 
+  text-decoration:none; 
+  font-weight:bold; 
 }
 .banner-link img { 
   display:block; 
-  margin:0 auto; 
+  margin:0.5rem auto; 
   max-width:100%; 
   height:auto; 
   border-radius:8px; 
@@ -99,11 +104,13 @@ footer a {
 <body>
 
 <header>
-  <a href="https://hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
-    <img id="bannerImg" alt="hamusata home banner">
-  </a>
-  <button id="showImages" style="margin-top:1rem; padding:0.5rem 1rem;">画像を表示/非表示</button>
+  <a href="https://hamusata.f5.si">通常版</a>
 </header>
+
+<a href="https://hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
+  <img id="bannerImg" alt="hamusata home banner">
+</a>
+<button id="showImages" style="display:block; margin:1rem auto; padding:0.5rem 1rem;">画像を表示/非表示</button>
 
 <section id="profile">
   <h2>自己紹介</h2>
@@ -139,31 +146,40 @@ const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
-document.getElementById('showImages').addEventListener('click', () => {
+function setBannerImage(show = true) {
   const banner = document.getElementById('bannerImg');
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
   const bannerUrl = isMobile ? 'https://m.hamusata.f5.si/banner_icon_hamusata.png' : 'https://hamusata.f5.si/banner_icon_hamusata.png';
-  banner.src = banner.src ? '' : bannerUrl;
+  banner.src = show ? bannerUrl : '';
+}
+
+function toggleWorkImages() {
   document.querySelectorAll('.work-card').forEach(card => {
     const imgUrl = card.dataset.img;
     if (!imgUrl) return;
     let img = card.querySelector('img');
-    if (img) { img.remove(); } else { img = document.createElement('img'); img.src = imgUrl; img.alt = card.querySelector('h3').textContent; card.prepend(img); }
+    if (img) { 
+      img.remove(); 
+    } else {
+      img = document.createElement('img'); 
+      img.src = imgUrl; 
+      img.alt = card.querySelector('h3').textContent; 
+      card.prepend(img);
+    }
   });
-});
-
-function checkRedirect() {
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-  const host = window.location.host;
-  if (host !== 'lite.hamusata.f5.si' && host !== 'm-lite.hamusata.f5.si') return;
-  if ((isMobile && host === 'm-lite.hamusata.f5.si') || (!isMobile && host === 'lite.hamusata.f5.si')) return;
-  const target = isMobile ? 'https://m-lite.hamusata.f5.si' : 'https://lite.hamusata.f5.si';
-  window.location.href = target;
 }
 
-window.addEventListener('load', checkRedirect);
-window.addEventListener('resize', checkRedirect);
-window.addEventListener('orientationchange', checkRedirect);
+document.getElementById('showImages').addEventListener('click', () => {
+  const banner = document.getElementById('bannerImg');
+  if (!banner.src) {
+    setBannerImage(true);
+  } else {
+    setBannerImage(false);
+  }
+  toggleWorkImages();
+});
+
+window.addEventListener('load', () => setBannerImage(true));
 </script>
 
 </body>
