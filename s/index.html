@@ -48,14 +48,15 @@ footer {
 <body>
 
 <section>
-<h2>hamusata WEB lite / Lite site</h2>
-<p>こんにちは、hamusataです。 / Hello, I am hamusata.</p>
-<p>Web制作・ネット活動しています。 / Web & net activities.</p>
-<p>ハムスター飼っています。 / Have a hamster.</p>
+<h2>hamusata WEB lite</h2>
+<p>こんにちは、hamusataです。</p>
+<p>Web制作やネット閲覧等をしています。</p>
+<p>ハムスターを飼っています。</p>
+<p><a href="https://hamusata.f5.si">通常版</a></p>
 </section>
 
 <section>
-<h2>リンク / Links</h2>
+<h2>Links</h2>
 <p><a href="https://hamuzon.github.io">hamuzon.github.io</a></p>
 <p><a href="https://home.hamusata.f5.si">home.hamusata.f5.si</a></p>
 <p><a href="https://www.link-s.f5.si/">www.link-s.f5.si</a></p>
@@ -69,17 +70,9 @@ footer {
 const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
-
-(function() {
-  const key = 'redirected';
-  if(localStorage.getItem(key)) return;
-  const host = window.location.host;
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-  if((host === 'm-lite.hamusata.f5.si' && isMobile) || (host === 'lite.hamusata.f5.si' && !isMobile)) return;
-  const target = isMobile ? 'https://m-lite.hamusata.f5.si/s/index.html' : 'https://lite.hamusata.f5.si/s/index.html';
-  localStorage.setItem(key, '1');
-  window.location.href = target;
-})();
+if(window.location.host !== 'hamusata.f5.si'){
+  window.location.href = 'https://hamusata.f5.si/s/index.html';
+}
 </script>
 
 </body>
