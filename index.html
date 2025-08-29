@@ -1,183 +1,149 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HAMUSATA Lite – ホームページ</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAMUSATA – Lite版ホームページ</title>
 
-  <!-- Favicon -->
-  <link rel="icon" href="https://hamusata.f5.si/icon.svg" type="image/svg+xml">
-  <link rel="icon" href="https://hamusata.f5.si/icon.png" type="image/png">
-  <link rel="apple-touch-icon" href="https://hamusata.f5.si/icon.png">
+<link rel="icon" href="https://hamusata.f5.si/icon.svg" type="image/svg+xml">
+<link rel="icon" href="https://hamusata.f5.si/icon.png" type="image/png">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+<meta name="description" content="HAMUSATA.f5.si Lite版ホームページです / This is the lite homepage">
 
-  <!-- SEO -->
-  <meta name="description" content="HAMUSATA.f5.si の軽量版ホームページです / This is the lite homepage of HAMUSATA.f5.si">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Potta One', sans-serif; }
+body { min-height:100vh; background:#121212; color:#ddd; line-height:1.6; scroll-behavior:smooth; }
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="HAMUSATA Lite – ホームページ">
-  <meta property="og:description" content="HAMUSATA.f5.si の軽量版ホームページです / This is the lite homepage of HAMUSATA.f5.si">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://lite.hamusata.f5.si">
-  <meta property="og:image" content="https://hamusata.f5.si/icon_500_500.png">
+header { text-align:center; padding:1rem 0; }
+.banner-link img { display:none; max-width:100%; height:auto; }
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="HAMUSATA Lite – ホームページ">
-  <meta name="twitter:description" content="HAMUSATA.f5.si の軽量版ホームページです / This is the lite homepage of HAMUSATA.f5.si">
-  <meta name="twitter:image" content="https://hamusata.f5.si/icon_500_500.png">
+section { max-width:1000px; margin:2rem auto; padding:0 1rem; }
+section h2 { font-size:1.8rem; margin-bottom:1rem; text-align:center; color:#aaa; }
+.works { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+.work-card { background:#1f1f1f; padding:1rem; border-radius:8px; text-align:center; transition:0.3s; }
+.work-card a { display:inline-block; margin-top:0.5rem; padding:0.5rem 1rem; background:#444; color:#ddd; text-decoration:none; border-radius:8px; }
+.work-card a:hover { background:#555; color:#fff; }
 
-  <!-- CSS -->
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:'Potta One',sans-serif;}
-    body{min-height:100vh;background:#121212;color:#ddd;line-height:1.6;scroll-behavior:smooth;}
-    header{width:100%;max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:center;padding:16px 0 8px 0;background:transparent;}
-    .banner-link{display:inline-block;line-height:0;text-decoration:none;}
-    .banner-link img{display:block;width:min(100%,512px);max-width:100%;height:auto;max-height:120px;object-fit:contain;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.18);background:#222;}
-    section{max-width:1000px;margin:3rem auto;padding:0 1rem;border-radius:8px;transition:0.5s;}
-    section h2{font-size:2rem;margin-bottom:1rem;text-align:center;color:#aaa;}
-    section.highlight{background:rgba(255,255,255,0.1);}
-    .profile p{text-align:center;max-width:700px;margin:0.5rem auto;color:#ccc;}
-    .works{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;}
-    .work-card{display:block;background:#1f1f1f;color:#ddd;text-decoration:none;padding:1.5rem;border-radius:16px;box-shadow:0 8px 20px rgba(0,0,0,0.5);text-align:center;transition:0.3s;}
-    .work-card img{width:80px;height:80px;margin-bottom:1rem;border-radius:50%;border:2px solid #555;}
-    .work-card:hover{transform:translateY(-5px);box-shadow:0 14px 28px rgba(0,0,0,0.7);}
-    .work-card a{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:1rem;padding:0.8rem 1.8rem;border-radius:18px;background:#444;color:#ddd;font-weight:600;text-decoration:none;transition:0.3s;}
-    .work-card a:hover{background:#555;color:#fff;}
-    .work-card p.note{margin-top:0.5rem;font-size:0.9rem;}
-    footer{text-align:center;padding:2rem 1rem;color:#aaa;font-size:0.9rem;}
-    footer a{color:#888;text-decoration:underline;}
-    @media(max-width:768px){.works{grid-template-columns:1fr;}section h2{font-size:1.5rem;}.profile p{font-size:0.95rem;}}
-  </style>
+footer { text-align:center; padding:2rem 1rem; color:#aaa; font-size:0.9rem; }
+footer a { color:#888; text-decoration:underline; }
+
+@media(max-width:768px){ .works { grid-template-columns:1fr; } section h2 { font-size:1.5rem; } }
+</style>
 </head>
 <body>
 
 <header>
-  <a href="https://lite.hamusata.f5.si" class="banner-link" aria-label="HAMUSATA Lite ホームへ移動">
-    <img src="banner_icon_hamusata.png" alt="hamusata home banner" width="512" height="154" loading="lazy" decoding="async">
-  </a>
+<a href="https://hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
+<img id="bannerImg" data-img="banner_icon_hamusata.png" alt="hamusata home banner">
+</a>
+<button id="showImages" style="margin-top:1rem; padding:0.5rem 1rem;">画像を表示</button>
 </header>
 
 <section id="profile">
-  <div class="profile">
-    <h2>自己紹介</h2>
-    <p>こんにちは、hamusataです。軽量版サイトを利用する方向けのページです。</p>
-    <p>ハムスターを飼っています。</p>
-    <p>ネットの海でプログラミングやネット活動をしています。</p>
-  </div>
+<h2>自己紹介</h2>
+<p style="text-align:center;">こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。</p>
+<p style="text-align:center;">ハムスターを飼っています。</p>
+<p style="text-align:center;">ネットの海でプログラミングしたりネットしたりして過ごしてます。</p>
 </section>
 
-<section id="lite-links">
-  <h2>軽量版リンク集</h2>
-  <div class="works">
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="Lite icon">
-      <h3>HAMUSATA Lite (PC版)</h3>
-      <p>軽量版ホームページ (PC向け)</p>
-      <a href="https://lite.hamusata.f5.si"><span>見る</span> / <span>View</span></a>
-    </div>
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="m-Lite icon">
-      <h3>HAMUSATA m-Lite (スマホ版)</h3>
-      <p>軽量版ホームページ (スマホ向け)</p>
-      <a href="https://m-lite.hamusata.f5.si"><span>見る</span> / <span>View</span></a>
-    </div>
-  </div>
-</section>
+<section id="portfolio">
+<h2>ポートフォリオリンク集</h2>
+<div class="works" id="worksContainer">
 
-<section id="main-links">
-  <h2>総合リンク / ランダム作品 (本家)</h2>
-  <div class="works">
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="HAMUSATA Main icon">
-      <h3>HAMUSATA 本家サイト</h3>
-      <p>総合リンク・ランダム作品・ポートフォリオはこちらから</p>
-      <a href="https://hamusata.f5.si"><span>見る</span> / <span>View</span></a>
-    </div>
-  </div>
+<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
+<h3>HAMUSATA – ホームページ</h3>
+<p>メインポータルリンク。色々なものをまとめています。</p>
+<a href="https://home.hamusata.f5.si">見る / View</a>
+</div>
+
+<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
+<h3>GitHub Pages版</h3>
+<p>GitHub Pages 版ホームページ。</p>
+<a href="https://hamuzon.github.io">見る / View</a>
+</div>
+
+<div class="work-card">
+<h3>総合リンク</h3>
+<p>hamusata.f5.si からアクセス</p>
+<a href="https://hamusata.f5.si">開く / Open</a>
+</div>
+
+<div class="work-card">
+<h3>ランダム作品</h3>
+<p>hamusata.f5.si からアクセス</p>
+<a href="https://hamusata.f5.si/random">開く / Open</a>
+</div>
+
+</div>
 </section>
 
 <section id="status">
-  <h2>サービス稼働状況 / Status Page</h2>
-  <div class="works">
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="Status icon">
-      <h3>サービス稼働状況</h3>
-      <p>※一部 PCサーバー + Cloudflare Tunnel を利用しています。再起動時に一時的に接続できない場合があります。</p>
-      <a href="https://stats.uptimerobot.com/tT7bs2uEHa"><span>稼働状況を見る</span> / <span>View Status</span></a>
-    </div>
-  </div>
+<h2>サービス稼働状況</h2>
+<div class="works">
+<div class="work-card">
+<h3>サービス稼働状況</h3>
+<p>※本サービスは一部 PCサーバー + Cloudflare Tunnel を利用。</p>
+<a href="https://stats.uptimerobot.com/tT7bs2uEHa">稼働状況を見る / View Status</a>
+</div>
+</div>
 </section>
 
 <section id="sns">
-  <h2>SNSリンク</h2>
-  <div class="works">
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="Scratch icon">
-      <h3>Scratch</h3>
-      <p>hamusataアカウント</p>
-      <a href="https://scratch.mit.edu/users/hamusata/"><span>見る</span> / <span>View</span></a>
-    </div>
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="Scratch icon">
-      <h3>Scratch</h3>
-      <p>hamuzonアカウント</p>
-      <a href="https://scratch.mit.edu/users/hamuzon/"><span>見る</span> / <span>View</span></a>
-    </div>
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="GitHub icon">
-      <h3>GitHub</h3>
-      <p>GitHubアカウント</p>
-      <a href="https://github.com/hamuzon"><span>見る</span> / <span>View</span></a>
-    </div>
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="Bluesky icon">
-      <h3>Bluesky</h3>
-      <p>Blueskyアカウント</p>
-      <a href="https://bsky.app/profile/hamuzon-jp.f5.si"><span>見る</span> / <span>View</span></a>
-    </div>
-    <div class="work-card">
-      <img src="https://hamusata.f5.si/icon.svg" alt="Twitter(X) icon">
-      <h3>Twitter (X)</h3>
-      <p>@hamu_sata アカウント</p>
-      <a href="https://x.com/hamu_sata"><span>見る</span> / <span>View</span></a>
-    </div>
-  </div>
+<h2>SNSリンク</h2>
+<div class="works">
+<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
+<h3>Scratch</h3>
+<p>hamusataアカウント</p>
+<a href="https://scratch.mit.edu/users/hamusata/">見る / View</a>
+</div>
+<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
+<h3>GitHub</h3>
+<p>GitHubアカウント</p>
+<a href="https://github.com/hamuzon">見る / View</a>
+</div>
+</div>
 </section>
 
 <footer>
-  &copy; <span id="year"></span>
-  <a href="https://github.com/hamuzon">@hamuzon / @hamusata</a> – All rights reserved.
+&copy; <span id="year"></span> HAMUSATA – ホームページ / All rights reserved.
 </footer>
 
 <script>
+// 年自動更新
 const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
-// PC/スマホ自動リダイレクト (lite ⇄ m-lite)
-(function() {
-  let url = new URL(window.location.href);
-  const isMobile = /Mobi|iPhone|iPad|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-  const host = url.hostname;
-
-  // 末尾ドット削除
-  if (host.endsWith('.')) {
-    url.hostname = host.slice(0, -1);
-    window.location.replace(url.toString());
-    return;
+// 画像表示ボタン
+document.getElementById('showImages').addEventListener('click', () => {
+  const banner = document.getElementById('bannerImg');
+  if (banner && banner.dataset.img && !banner.src) {
+    banner.src = banner.dataset.img;
   }
+  document.querySelectorAll('.work-card').forEach(card => {
+    const imgUrl = card.dataset.img;
+    if (imgUrl && !card.querySelector('img')) {
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      img.alt = card.querySelector('h3').textContent;
+      img.style.width = '80px';
+      img.style.height = '80px';
+      img.style.marginBottom = '0.5rem';
+      card.prepend(img);
+    }
+  });
+});
 
-  if (host === 'lite.hamusata.f5.si' && isMobile) {
-    url.hostname = 'm-lite.hamusata.f5.si';
-    window.location.replace(url.toString());
-  } else if (host === 'm-lite.hamusata.f5.si' && !isMobile) {
-    url.hostname = 'lite.hamusata.f5.si';
-    window.location.replace(url.toString());
-  }
-})();
+// Lite版 PC/スマホリダイレクト
+function checkRedirect() {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+  const host = window.location.host;
+  if (host !== 'lite.hamusata.f5.si' && host !== 'm-lite.hamusata.f5.si') return;
+  if ((isMobile && host === 'm-lite.hamusata.f5.si') || (!isMobile && host === 'lite.hamusata.f5.si')) return;
+  const target = isMobile ? 'https://m-lite.hamusata.f5.si' : 'https://lite.hamusata.f5.si';
+  window.location.href = target;
+}
+window.addEventListener('load', checkRedirect);
 </script>
 
 </body>
