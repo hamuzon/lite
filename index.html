@@ -14,106 +14,79 @@
 * { margin:0; padding:0; box-sizing:border-box; font-family:'Potta One', sans-serif; }
 body { min-height:100vh; background:#121212; color:#ddd; line-height:1.6; scroll-behavior:smooth; }
 
-header {
+/* バナー画像・リンクバー */
+header { text-align:center; padding:1rem 0; }
+#bannerContainer img { display:none; max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.18); }
+
+#showImages { margin-top:0.5rem; padding:0.5rem 1rem; cursor:pointer; background:#444; color:#ddd; border:none; border-radius:6px; transition:0.3s; }
+#showImages:hover { background:#555; color:#fff; }
+
+/* 常時固定リンクバー */
+#fixedLinks {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: #121212;
-  padding: 1rem 0;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  background:#1f1f1f;
+  padding:0.5rem;
+  display:flex;
+  justify-content:center;
+  gap:1rem;
+  flex-wrap:wrap;
+  box-shadow:0 2px 6px rgba(0,0,0,0.5);
 }
+#fixedLinks a {
+  color:#ddd;
+  text-decoration:none;
+  padding:0.3rem 0.8rem;
+  border-radius:6px;
+  background:#444;
+  transition:0.3s;
+}
+#fixedLinks a:hover { background:#555; color:#fff; }
 
-.banner-link img { display:none; max-width:100%; height:auto; border-radius:8px; box-shadow:0 4px 16px rgba(0,0,0,0.18); }
+section { max-width:1000px; margin:2rem auto; padding:0 1rem; text-align:center; }
+section h2 { font-size:1.8rem; margin-bottom:1rem; color:#aaa; }
 
-#showImages { margin-top:1rem; padding:0.5rem 1rem; cursor:pointer; background:#444; color:#ddd; border:none; border-radius:6px; transition:0.3s; }
-#showImages:hover { background:#555; color:#fff; }
-
-section { max-width:1000px; margin:2rem auto; padding:0 1rem; }
-section h2 { font-size:1.8rem; margin-bottom:1rem; text-align:center; color:#aaa; }
-
-.works { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
-.work-card { background:#1f1f1f; padding:1rem; border-radius:8px; text-align:center; transition:0.3s; }
+.work-card { background:#1f1f1f; padding:1rem; border-radius:8px; text-align:center; margin-bottom:1rem; transition:0.3s; }
 .work-card a { display:inline-block; margin-top:0.5rem; padding:0.5rem 1rem; background:#444; color:#ddd; text-decoration:none; border-radius:8px; }
 .work-card a:hover { background:#555; color:#fff; }
 
 footer { text-align:center; padding:2rem 1rem; color:#aaa; font-size:0.9rem; }
 footer a { color:#888; text-decoration:underline; }
 
-@media(max-width:768px){ .works { grid-template-columns:1fr; } section h2 { font-size:1.5rem; } }
+@media(max-width:768px){ section h2 { font-size:1.5rem; } }
 </style>
 </head>
 <body>
 
 <header>
-<a href="https://hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
-<img id="bannerImg" data-img="https://hamusata.f5.si/banner_icon_hamusata.png" alt="hamusata home banner">
-</a>
-<button id="showImages">画像を表示</button>
+<div id="bannerContainer">
+<img id="bannerImg" data-img-desktop="https://hamusata.f5.si/banner_icon_hamusata.png"
+                 data-img-mobile="https://m.hamusata.f5.si/banner_icon_hamusata.png"
+                 alt="hamusata home banner">
+</div>
+<button id="showImages">画像表示/非表示</button>
 </header>
+
+<!-- 常時固定リンクバー -->
+<div id="fixedLinks">
+  <a href="https://home.hamusata.f5.si">ホーム</a>
+  <a href="https://hamuzon.github.io">GitHub Pages</a>
+  <a href="https://hamusata.f5.si/random">ランダム作品</a>
+</div>
 
 <section id="profile">
 <h2>自己紹介</h2>
-<p style="text-align:center;">こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。</p>
-<p style="text-align:center;">ハムスターを飼っています。</p>
-<p style="text-align:center;">ネットの海でプログラミングしたりネットしたりして過ごしてます。</p>
+<p>こんにちは、hamusataです。軽量版では情報を最小限にしています。</p>
+<p>詳細は通常版ホームページをご覧ください。</p>
+<a href="https://hamusata.f5.si" style="display:inline-block;margin-top:0.8rem;padding:0.5rem 1rem;background:#444;color:#ddd;text-decoration:none;border-radius:6px;">通常版を見る</a>
 </section>
 
 <section id="portfolio">
-<h2>ポートフォリオリンク集</h2>
-<div class="works" id="worksContainer">
-
-<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
-<h3>HAMUSATA – ホームページ</h3>
-<p>メインポータルリンク。色々なものをまとめています。</p>
-<a href="https://home.hamusata.f5.si">見る / View</a>
-</div>
-
-<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
-<h3>GitHub Pages版</h3>
-<p>GitHub Pages 版ホームページ。</p>
-<a href="https://hamuzon.github.io">見る / View</a>
-</div>
-
-<div class="work-card">
-<h3>総合リンク</h3>
-<p>hamusata.f5.si からアクセス</p>
-<a href="https://hamusata.f5.si">開く / Open</a>
-</div>
-
+<h2>簡易リンク</h2>
 <div class="work-card">
 <h3>ランダム作品</h3>
-<p>hamusata.f5.si からアクセス</p>
 <a href="https://hamusata.f5.si/random">開く / Open</a>
-</div>
-
-</div>
-</section>
-
-<section id="status">
-<h2>サービス稼働状況</h2>
-<div class="works">
-<div class="work-card">
-<h3>サービス稼働状況</h3>
-<p>※本サービスは一部 PCサーバー + Cloudflare Tunnel を利用。</p>
-<a href="https://stats.uptimerobot.com/tT7bs2uEHa">稼働状況を見る / View Status</a>
-</div>
-</div>
-</section>
-
-<section id="sns">
-<h2>SNSリンク</h2>
-<div class="works">
-<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
-<h3>Scratch</h3>
-<p>hamusataアカウント</p>
-<a href="https://scratch.mit.edu/users/hamusata/">見る / View</a>
-</div>
-<div class="work-card" data-img="https://hamusata.f5.si/icon.svg">
-<h3>GitHub</h3>
-<p>GitHubアカウント</p>
-<a href="https://github.com/hamuzon">見る / View</a>
-</div>
 </div>
 </section>
 
@@ -127,24 +100,15 @@ const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
-// 画像表示ボタン
+// バナー画像表示/非表示
 document.getElementById('showImages').addEventListener('click', () => {
   const banner = document.getElementById('bannerImg');
-  if (banner && banner.dataset.img && !banner.src) {
-    banner.src = banner.dataset.img;
+  if(banner.src) {
+    banner.src = '';
+  } else {
+    const isMobile = window.innerWidth <= 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    banner.src = isMobile ? banner.dataset.imgMobile : banner.dataset.imgDesktop;
   }
-  document.querySelectorAll('.work-card').forEach(card => {
-    const imgUrl = card.dataset.img;
-    if (imgUrl && !card.querySelector('img')) {
-      const img = document.createElement('img');
-      img.src = imgUrl;
-      img.alt = card.querySelector('h3').textContent;
-      img.style.width = '80px';
-      img.style.height = '80px';
-      img.style.marginBottom = '0.5rem';
-      card.prepend(img);
-    }
-  });
 });
 
 // Lite版 PC/スマホリダイレクト
