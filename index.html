@@ -19,19 +19,16 @@ header { text-align:center; padding:1rem 0; }
 #toggleBanner:hover { background:#555; color:#fff; }
 
 /* 固定リンクバー */
-#fixedLinks {
+#fixedLink {
   position: sticky;
   top: 0;
   z-index: 1000;
   background:#1f1f1f;
-  padding:0.5rem;
-  display:flex;
-  justify-content:center;
-  gap:1rem;
-  flex-wrap:wrap;
+  padding:0.5rem 1rem;
+  text-align:center;
   box-shadow:0 2px 6px rgba(0,0,0,0.5);
 }
-#fixedLinks a {
+#fixedLink a {
   color:#ddd;
   text-decoration:none;
   padding:0.3rem 0.8rem;
@@ -39,7 +36,7 @@ header { text-align:center; padding:1rem 0; }
   background:#444;
   transition:0.3s;
 }
-#fixedLinks a:hover { background:#555; color:#fff; }
+#fixedLink a:hover { background:#555; color:#fff; }
 
 /* セクション */
 section { max-width:1000px; margin:2rem auto; padding:0 1rem; text-align:center; }
@@ -70,10 +67,9 @@ footer a { color:#888; text-decoration:underline; }
 <button id="toggleBanner">画像表示/非表示</button>
 </header>
 
-<div id="fixedLinks">
-  <a href="https://home.hamusata.f5.si">ホーム</a>
-  <a href="https://hamuzon.github.io">GitHub Pages</a>
-  <a href="https://hamusata.f5.si/random">ランダム作品</a>
+<!-- 上部固定リンク -->
+<div id="fixedLink">
+  <a href="https://hamusata.f5.si">通常版</a>
 </div>
 
 <section id="profile">
@@ -111,19 +107,6 @@ document.getElementById('toggleBanner').addEventListener('click', () => {
     banner.src = isMobile ? banner.dataset.imgMobile : banner.dataset.imgDesktop;
   }
 });
-
-// Lite版リダイレクト
-function checkRedirect() {
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-  const host = window.location.host;
-  if (host !== 'lite.hamusata.f5.si' && host !== 'm-lite.hamusata.f5.si') return;
-  if ((isMobile && host === 'm-lite.hamusata.f5.si') || (!isMobile && host === 'lite.hamusata.f5.si')) return;
-  const target = isMobile ? 'https://m-lite.hamusata.f5.si' : 'https://lite.hamusata.f5.si';
-  window.location.href = target;
-}
-window.addEventListener('load', checkRedirect);
-window.addEventListener('resize', checkRedirect);
-window.addEventListener('orientationchange', checkRedirect);
 </script>
 
 </body>
