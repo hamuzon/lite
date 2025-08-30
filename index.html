@@ -33,6 +33,7 @@ header a {
   color:#ddd; 
   text-decoration:none; 
   font-weight:bold; 
+  margin:0 0.5rem;
 }
 .banner-link img { 
   display:block; 
@@ -147,7 +148,7 @@ const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
-let imagesShown = false;
+let imagesShown = false; // 初期値 OFF
 
 function setBannerImage(show = true) {
   const banner = document.getElementById('bannerImg');
@@ -176,12 +177,6 @@ document.getElementById('showImages').addEventListener('click', () => {
   imagesShown = !imagesShown;
   setBannerImage(imagesShown);
   toggleWorkImages(imagesShown);
-});
-
-window.addEventListener('load', () => {
-  imagesShown = true;
-  setBannerImage(true);
-  toggleWorkImages(true);
 });
 
 function checkRedirect() {
