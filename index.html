@@ -6,110 +6,121 @@
   <title>HAMUSATA – Lite版ホームページ</title>
   <style>
     * {
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Potta One', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Potta One', sans-serif;
     }
 
     body {
-      min-height:100vh;
-      background:#121212;
-      color:#ddd;
-      line-height:1.6;
-      scroll-behavior:smooth;
+      min-height: 100vh;
+      background: #121212;
+      color: #ddd;
+      line-height: 1.6;
+      scroll-behavior: smooth;
     }
 
     header {
-      text-align:center;
-      padding:1rem 0;
-      position:sticky;
-      top:0;
-      z-index:1000;
-      background:#121212;
+      text-align: center;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #121212;
     }
 
     header a {
-      color:#ddd;
-      text-decoration:none;
-      font-weight:bold;
-      margin:0 0.5rem;
+      color: #ddd;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0 0.5rem;
     }
 
     .banner-link img {
-      display:block;
-      margin:0 auto;
-      max-width:100%;
-      height:auto;
-      border-radius:8px;
-      box-shadow:0 4px 16px rgba(0,0,0,0.18);
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
     }
 
     section {
-      max-width:1000px;
-      margin:2rem auto;
-      padding:0 1rem;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
     }
 
     section h2 {
-      font-size:1.8rem;
-      margin-bottom:1rem;
-      text-align:center;
-      color:#aaa;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      color: #aaa;
     }
 
     .works {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
     }
 
     .work-card {
-      background:#1f1f1f;
-      padding:1rem;
-      border-radius:8px;
-      text-align:center;
-      transition:0.3s;
+      background: #1f1f1f;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      transition: 0.3s;
     }
 
     .work-card img {
-      width:80px;
-      height:80px;
-      margin-bottom:0.5rem;
-      border-radius:50%;
-      border:2px solid #555;
+      width: 80px;
+      height: 80px;
+      margin-bottom: 0.5rem;
+      border-radius: 50%;
+      border: 2px solid #555;
     }
 
     .work-card a {
-      display:inline-block;
-      margin-top:0.5rem;
-      padding:0.5rem 1rem;
-      background:#444;
-      color:#ddd;
-      text-decoration:none;
-      border-radius:8px;
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #444;
+      color: #ddd;
+      text-decoration: none;
+      border-radius: 8px;
     }
 
     .work-card a:hover {
-      background:#555;
-      color:#fff;
+      background: #555;
+      color: #fff;
     }
 
     footer {
-      text-align:center;
-      padding:2rem 1rem;
-      color:#aaa;
-      font-size:0.9rem;
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #aaa;
+      font-size: 0.9rem;
     }
 
     footer a {
-      color:#888;
-      text-decoration:underline;
+      color: #888;
+      text-decoration: underline;
     }
 
-    @media(max-width:768px) {
-      .works { grid-template-columns:1fr; }
-      section h2 { font-size:1.5rem; }
+    @media (max-width: 768px) {
+      .works {
+        grid-template-columns: 1fr;
+      }
+      section h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    #showImages {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -125,9 +136,7 @@
     <img id="bannerImg" alt="hamusata home banner">
   </a>
 
-  <button id="showImages" style="display:block; margin:1rem auto; padding:0.5rem 1rem;">
-    画像を表示 / 非表示
-  </button>
+  <button id="showImages">画像を表示 / 非表示</button>
 
   <section id="profile">
     <h2>自己紹介</h2>
@@ -161,28 +170,39 @@
   </footer>
 
   <script>
-    // === 年自動更新 ===
+    // ===== 年自動更新 =====
     const baseYear = 2025;
-    const now = new Date().getFullYear();
-    document.getElementById("year").textContent =
-      now > baseYear ? `${baseYear}~${now}` : `${baseYear}`;
+    const currentYear = new Date().getFullYear();
+    document.getElementById('year').textContent =
+      currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
-    // === 表示状態の復元 ===
-    let imagesShown = localStorage.getItem('imagesShown') === 'true';
-
-    // === バナー画像設定 ===
-    function setBannerImage(show = true) {
-      const banner = document.getElementById('bannerImg');
-      const isMobile =
-        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
-        window.innerWidth <= 768;
-      const bannerUrl = isMobile
-        ? 'https://m.hamusata.f5.si/banner_icon_hamusata.png'
-        : 'https://hamusata.f5.si/banner_icon_hamusata.png';
-      banner.src = show ? bannerUrl : '';
+    // ===== URLパラメータ取得関数 =====
+    function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
     }
 
-    // === ワーク画像の表示/非表示 ===
+    // ===== 画像表示状態管理 =====
+    let imagesShown = false;
+
+    const paramShow = getQueryParam('showImages');
+    if (paramShow !== null) {
+      imagesShown = paramShow === 'true';
+    } else {
+      imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
+    }
+
+    // ===== バナー画像設定 =====
+    function setBannerImage(show) {
+      const banner = document.getElementById('bannerImg');
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      const url = isMobile
+        ? 'https://m.hamusata.f5.si/banner_icon_hamusata.png'
+        : 'https://hamusata.f5.si/banner_icon_hamusata.png';
+      banner.src = show ? url : '';
+    }
+
+    // ===== ワーク画像表示/非表示 =====
     function toggleWorkImages(show) {
       document.querySelectorAll('.work-card').forEach(card => {
         const imgUrl = card.dataset.img;
@@ -190,46 +210,38 @@
 
         let img = card.querySelector('img');
         if (!img) {
-          // 初回のみ生成
           img = document.createElement('img');
           img.src = imgUrl;
           img.alt = card.querySelector('h3').textContent;
-          img.loading = 'lazy'; // 遅延ロード
+          img.loading = 'lazy';
           card.prepend(img);
         }
-
-        // 表示切り替え（削除はしない）
         img.style.display = show ? '' : 'none';
       });
     }
 
-    // === 表示状態を反映 ===
+    // ===== 表示状態反映 =====
     function updateImages() {
       setBannerImage(imagesShown);
       toggleWorkImages(imagesShown);
     }
 
-    // === ボタン操作 ===
+    // ===== ボタンで切替 =====
     document.getElementById('showImages').addEventListener('click', () => {
       imagesShown = !imagesShown;
       localStorage.setItem('imagesShown', imagesShown);
       updateImages();
     });
 
-    // === 初期反映 ===
+    // 初期反映
     updateImages();
 
-    // === モバイル/PC自動リダイレクト ===
+    // ===== モバイル/PC自動リダイレクト =====
     function checkRedirect() {
-      const isMobile =
-        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
-        window.innerWidth <= 768;
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
       const host = window.location.host;
 
-      if (
-        !host.includes('lite.hamusata.f5.si') &&
-        !host.includes('m-lite.hamusata.f5.si')
-      ) return;
+      if (!host.includes('lite.hamusata.f5.si') && !host.includes('m-lite.hamusata.f5.si')) return;
 
       if (isMobile && host !== 'm-lite.hamusata.f5.si') {
         window.location.href = 'https://m-lite.hamusata.f5.si';
@@ -246,6 +258,5 @@
     window.addEventListener('resize', checkRedirect);
     window.addEventListener('orientationchange', checkRedirect);
   </script>
-
 </body>
 </html>
