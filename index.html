@@ -164,44 +164,62 @@
     // 年自動更新
     const baseYear = 2025;
     const currentYear = new Date().getFullYear();
-    document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+    document.getElementById("year").textContent =
+      currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
     let imagesShown = false; // 初期値 OFF
 
+    // バナー画像設定
     function setBannerImage(show = true) {
       const banner = document.getElementById('bannerImg');
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-      const bannerUrl = isMobile ? 'https://m.hamusata.f5.si/banner_icon_hamusata.png' : 'https://hamusata.f5.si/banner_icon_hamusata.png';
+      const isMobile =
+        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+        window.innerWidth <= 768;
+      const bannerUrl = isMobile
+        ? 'https://m.hamusata.f5.si/banner_icon_hamusata.png'
+        : 'https://hamusata.f5.si/banner_icon_hamusata.png';
       banner.src = show ? bannerUrl : '';
     }
 
+    // ワーク画像切り替え（削除せず非表示）
     function toggleWorkImages(show) {
       document.querySelectorAll('.work-card').forEach(card => {
         const imgUrl = card.dataset.img;
         if (!imgUrl) return;
+
         let img = card.querySelector('img');
-        if (show && !img) {
+        if (!img) {
+          // 初回のみ生成
           img = document.createElement('img');
           img.src = imgUrl;
           img.alt = card.querySelector('h3').textContent;
           card.prepend(img);
-        } else if (!show && img) {
-          img.remove();
         }
+
+        // 表示/非表示切り替え
+        img.style.display = show ? '' : 'none';
       });
     }
 
+    // ボタンクリックで切り替え
     document.getElementById('showImages').addEventListener('click', () => {
       imagesShown = !imagesShown;
       setBannerImage(imagesShown);
       toggleWorkImages(imagesShown);
     });
 
+    // モバイル/PC自動リダイレクト
     function checkRedirect() {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      const isMobile =
+        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+        window.innerWidth <= 768;
       const host = window.location.host;
 
-      if (!host.includes('lite.hamusata.f5.si') && !host.includes('m-lite.hamusata.f5.si')) return;
+      if (
+        !host.includes('lite.hamusata.f5.si') &&
+        !host.includes('m-lite.hamusata.f5.si')
+      )
+        return;
 
       if (isMobile && host !== 'm-lite.hamusata.f5.si') {
         window.location.href = 'https://m-lite.hamusata.f5.si';
