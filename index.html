@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HAMUSATA – Lite版ホームページ</title>
   <style>
     * {
@@ -78,6 +78,7 @@
       margin-bottom:0.5rem;
       border-radius:50%;
       border:2px solid #555;
+      display:none; /* 初期は非表示（localStorageで制御） */
     }
 
     .work-card a {
@@ -115,17 +116,16 @@
 </head>
 
 <body>
-
   <header>
     <a href="https://hamusata.f5.si">通常版</a>
     <a href="https://lite.hamusata.f5.si/s/">最小版</a>
   </header>
 
   <a href="https://hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
-    <img id="bannerImg" alt="hamusata home banner">
+    <img id="bannerImg" alt="hamusata home banner" />
   </a>
 
-  <button id="showImages" style="display:block; margin:1rem auto; padding:0.5rem 1rem;">
+  <button id="showImages" style="display:block;margin:1rem auto;padding:0.5rem 1rem;">
     画像を表示/非表示
   </button>
 
@@ -163,89 +163,83 @@
   <script>
     // 年自動更新
     const baseYear = 2025;
-    const currentYear = new Date().getFullYear();
+    const nowYear = new Date().getFullYear();
     document.getElementById("year").textContent =
-      currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+      nowYear > baseYear ? `${baseYear}~${nowYear}` : `${baseYear}`;
 
-    // 前回の状態を復元
-    let imagesShown = localStorage.getItem('imagesShown') === 'true';
+    // 前回状態を復元
+    let imagesShown = localStorage.getItem("imagesShown") === "true";
 
-    // バナー画像設定
+    // バナー画像（非表示切り替え）
     function setBannerImage(show = true) {
-      const banner = document.getElementById('bannerImg');
+      const banner = document.getElementById("bannerImg");
       const isMobile =
         /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
         window.innerWidth <= 768;
+
       const bannerUrl = isMobile
-        ? 'https://m.hamusata.f5.si/banner_icon_hamusata.png'
-        : 'https://hamusata.f5.si/banner_icon_hamusata.png';
-      banner.src = show ? bannerUrl : '';
+        ? "https://m.hamusata.f5.si/banner_icon_hamusata.png"
+        : "https://hamusata.f5.si/banner_icon_hamusata.png";
+
+      if (!banner.src) banner.src = bannerUrl; // 初回のみ読み込み
+      banner.style.display = show ? "" : "none";
     }
 
-    // ワーク画像切り替え（削除せず非表示）
+    // 各カード画像切り替え（キャッシュ活用）
     function toggleWorkImages(show) {
-      document.querySelectorAll('.work-card').forEach(card => {
+      document.querySelectorAll(".work-card").forEach(card => {
         const imgUrl = card.dataset.img;
         if (!imgUrl) return;
 
-        let img = card.querySelector('img');
+        let img = card.querySelector("img");
         if (!img) {
-          // 初回のみ生成
-          img = document.createElement('img');
+          // 初回生成（2回目以降は再利用・キャッシュ利用）
+          img = document.createElement("img");
           img.src = imgUrl;
-          img.alt = card.querySelector('h3').textContent;
+          img.alt = card.querySelector("h3").textContent;
           card.prepend(img);
         }
 
-        // 表示/非表示切り替え
-        img.style.display = show ? '' : 'none';
+        img.style.display = show ? "" : "none";
       });
     }
 
-    // 表示状態を反映する関数
+    // 状態反映
     function updateImages() {
       setBannerImage(imagesShown);
       toggleWorkImages(imagesShown);
     }
 
-    // ボタンクリックで切り替え＋保存
-    document.getElementById('showImages').addEventListener('click', () => {
+    // ボタン操作
+    document.getElementById("showImages").addEventListener("click", () => {
       imagesShown = !imagesShown;
-      localStorage.setItem('imagesShown', imagesShown);
+      localStorage.setItem("imagesShown", imagesShown);
       updateImages();
     });
 
-    // 初期化時に前回の状態で反映
+    // 初期状態反映
     updateImages();
 
-    // モバイル/PC自動リダイレクト
+    // 自動リダイレクト
     function checkRedirect() {
       const isMobile =
         /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
         window.innerWidth <= 768;
       const host = window.location.host;
 
-      if (
-        !host.includes('lite.hamusata.f5.si') &&
-        !host.includes('m-lite.hamusata.f5.si')
-      )
+      if (!host.includes("lite.hamusata.f5.si") && !host.includes("m-lite.hamusata.f5.si"))
         return;
 
-      if (isMobile && host !== 'm-lite.hamusata.f5.si') {
-        window.location.href = 'https://m-lite.hamusata.f5.si';
-        return;
-      }
-
-      if (!isMobile && host !== 'lite.hamusata.f5.si') {
-        window.location.href = 'https://lite.hamusata.f5.si';
-        return;
+      if (isMobile && host !== "m-lite.hamusata.f5.si") {
+        window.location.href = "https://m-lite.hamusata.f5.si";
+      } else if (!isMobile && host !== "lite.hamusata.f5.si") {
+        window.location.href = "https://lite.hamusata.f5.si";
       }
     }
 
-    window.addEventListener('load', checkRedirect);
-    window.addEventListener('resize', checkRedirect);
-    window.addEventListener('orientationchange', checkRedirect);
+    window.addEventListener("load", checkRedirect);
+    window.addEventListener("resize", checkRedirect);
+    window.addEventListener("orientationchange", checkRedirect);
   </script>
-
 </body>
 </html>
