@@ -167,7 +167,8 @@
     document.getElementById("year").textContent =
       currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 
-    let imagesShown = false; // 初期値 OFF
+    // 前回の状態を復元
+    let imagesShown = localStorage.getItem('imagesShown') === 'true';
 
     // バナー画像設定
     function setBannerImage(show = true) {
@@ -201,12 +202,21 @@
       });
     }
 
-    // ボタンクリックで切り替え
-    document.getElementById('showImages').addEventListener('click', () => {
-      imagesShown = !imagesShown;
+    // 表示状態を反映する関数
+    function updateImages() {
       setBannerImage(imagesShown);
       toggleWorkImages(imagesShown);
+    }
+
+    // ボタンクリックで切り替え＋保存
+    document.getElementById('showImages').addEventListener('click', () => {
+      imagesShown = !imagesShown;
+      localStorage.setItem('imagesShown', imagesShown);
+      updateImages();
     });
+
+    // 初期化時に前回の状態で反映
+    updateImages();
 
     // モバイル/PC自動リダイレクト
     function checkRedirect() {
