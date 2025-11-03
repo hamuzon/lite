@@ -1,92 +1,106 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>hamusata WEB lite</title>
-<style>
-body {
-  margin:0;
-  padding:0;
-  font-family:sans-serif;
-  background:#121212;
-  color:#ddd;
-  line-height:1.4;
-}
-section {
-  max-width:600px;
-  margin:2rem auto;
-  padding:0 1rem;
-}
-h2 {
-  text-align:center;
-  color:#aaa;
-  font-size:1.4rem;
-  margin-bottom:0.8rem;
-}
-p {
-  text-align:center;
-  margin-bottom:0.4rem;
-  font-size:0.9rem;
-}
-a {
-  color:#4da6ff;
-  text-decoration:none;
-  font-size:0.9rem;
-}
-a:hover {
-  color:#1a5fff;
-}
-footer {
-  text-align:center;
-  color:#888;
-  padding:1.5rem 1rem;
-  font-size:0.8rem;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hamusata WEB lite</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background: #121212;
+      color: #ddd;
+      line-height: 1.4;
+    }
+
+    section {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    h2 {
+      text-align: center;
+      color: #aaa;
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+
+    a {
+      color: #4da6ff;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    a:hover {
+      color: #1a5fff;
+    }
+
+    footer {
+      text-align: center;
+      color: #888;
+      padding: 1.5rem 1rem;
+      font-size: 0.8rem;
+    }
+  </style>
 </head>
 <body>
 
-<section>
-<h2>hamusata WEB lite</h2>
-<p>こんにちは、hamusataです。</p>
-<p>Web制作やネット閲覧等をしています。</p>
-<p>ハムスターを飼っています。</p>
-<p>
-  <a href="https://hamusata.f5.si">通常版</a> | 
-  <a href="https://lite.hamusata.f5.si">軽量版</a>
-</p>
-</section>
+  <section>
+    <h2>hamusata WEB lite</h2>
+    <p>こんにちは、hamusataです。</p>
+    <p>Web制作やネット閲覧等をしています。</p>
+    <p>ハムスターを飼っています。</p>
+    <p>
+      <a href="https://hamusata.f5.si">通常版</a> | 
+      <a href="https://lite.hamusata.f5.si">軽量版</a>
+    </p>
+  </section>
 
-<section>
-<h2>Links</h2>
-<p><a href="https://hamuzon.github.io">hamuzon.github.io</a></p>
-<p><a href="https://home.hamusata.f5.si">home.hamusata.f5.si</a></p>
-<p><a href="https://www.link-s.f5.si/">www.link-s.f5.si</a></p>
-</section>
+  <section>
+    <h2>Links</h2>
+    <p><a href="https://hamuzon.github.io">hamuzon.github.io</a></p>
+    <p><a href="https://home.hamusata.f5.si">home.hamusata.f5.si</a></p>
+    <p><a href="https://www.link-s.f5.si/">www.link-s.f5.si</a></p>
+  </section>
 
-<footer>
-&copy; <span id="year"></span> HAMUSATA Lite
-</footer>
+  <footer>
+    &copy; <span id="year"></span> HAMUSATA Lite
+  </footer>
 
-<script>
-const baseYear = 2025;
-const currentYear = new Date().getFullYear();
-document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : baseYear;
+  <script>
+    // 年表示
+    const baseYear = 2025;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent =
+      currentYear > baseYear ? `${baseYear}~${currentYear}` : baseYear;
 
-function checkRedirect() {
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-  const host = window.location.host;
-  if ((isMobile && host === 'm-lite.hamusata.f5.si') || (!isMobile && host === 'lite.hamusata.f5.si')) return;
-  const path = window.location.pathname + window.location.search + window.location.hash;
-  const targetDomain = isMobile ? 'https://m-lite.hamusata.f5.si' : 'https://lite.hamusata.f5.si';
-  window.location.href = targetDomain + path;
-}
+    // リダイレクト判定
+    function checkRedirect() {
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      const host = window.location.host;
 
-window.addEventListener('load', checkRedirect);
-window.addEventListener('resize', checkRedirect);
-window.addEventListener('orientationchange', checkRedirect);
-</script>
+      if ((isMobile && host === 'm-lite.hamusata.f5.si') ||
+          (!isMobile && host === 'lite.hamusata.f5.si')) {
+        return;
+      }
+
+      const path = window.location.pathname + window.location.search + window.location.hash;
+      const targetDomain = isMobile ? 'https://m-lite.hamusata.f5.si' : 'https://lite.hamusata.f5.si';
+      window.location.href = targetDomain + path;
+    }
+
+    window.addEventListener('load', checkRedirect);
+    window.addEventListener('resize', checkRedirect);
+    window.addEventListener('orientationchange', checkRedirect);
+  </script>
 
 </body>
 </html>
