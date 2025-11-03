@@ -79,15 +79,15 @@
     // 年表示
     const baseYear = 2025;
     const currentYear = new Date().getFullYear();
-    document.getElementById("year").textContent =
+    document.getElementById("year").textContent = 
       currentYear > baseYear ? `${baseYear}~${currentYear}` : baseYear;
 
-    // リダイレクト判定
+    // デバイスによるリダイレクト
     function checkRedirect() {
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
       const host = window.location.host;
 
-      if ((isMobile && host === 'm-lite.hamusata.f5.si') ||
+      if ((isMobile && host === 'm-lite.hamusata.f5.si') || 
           (!isMobile && host === 'lite.hamusata.f5.si')) {
         return;
       }
