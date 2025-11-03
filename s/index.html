@@ -52,7 +52,10 @@ footer {
 <p>こんにちは、hamusataです。</p>
 <p>Web制作やネット閲覧等をしています。</p>
 <p>ハムスターを飼っています。</p>
-<p><a href="https://hamusata.f5.si">通常版</a></p>
+<p>
+  <a href="https://hamusata.f5.si">通常版</a> | 
+  <a href="https://lite.hamusata.f5.si">軽量版</a>
+</p>
 </section>
 
 <section>
@@ -70,6 +73,7 @@ footer {
 const baseYear = 2025;
 const currentYear = new Date().getFullYear();
 document.getElementById("year").textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : baseYear;
+
 function checkRedirect() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
   const host = window.location.host;
@@ -78,6 +82,7 @@ function checkRedirect() {
   const targetDomain = isMobile ? 'https://m-lite.hamusata.f5.si' : 'https://lite.hamusata.f5.si';
   window.location.href = targetDomain + path;
 }
+
 window.addEventListener('load', checkRedirect);
 window.addEventListener('resize', checkRedirect);
 window.addEventListener('orientationchange', checkRedirect);
