@@ -1,7 +1,11 @@
 # lite
 hamusata.f5.si 軽量版
 
-以下は hamusata.f5.si の軽量版サイトです。
+hamusata.f5.si の軽量版サイトです。
+最新の 情報は
+
+[hamusata.f5.si](https://hamusata.f5.si/)
+のほうがいいかもしれません
 
 ---
 
