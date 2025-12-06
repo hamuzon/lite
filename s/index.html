@@ -80,27 +80,9 @@
     const baseYear = 2025;
     const currentYear = new Date().getFullYear();
     document.getElementById("year").textContent = 
-      currentYear > baseYear ? `${baseYear}~${currentYear}` : baseYear;
-
-    // デバイスによるリダイレクト
-    function checkRedirect() {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-      const host = window.location.host;
-
-      if ((isMobile && host === 'm-lite.hamusata.f5.si') || 
-          (!isMobile && host === 'lite.hamusata.f5.si')) {
-        return;
-      }
-
-      const path = window.location.pathname + window.location.search + window.location.hash;
-      const targetDomain = isMobile ? 'https://m-lite.hamusata.f5.si' : 'https://lite.hamusata.f5.si';
-      window.location.href = targetDomain + path;
-    }
-
-    window.addEventListener('load', checkRedirect);
-    window.addEventListener('resize', checkRedirect);
-    window.addEventListener('orientationchange', checkRedirect);
+    currentYear > baseYear ? `${baseYear}~${currentYear}` : baseYear;
   </script>
 
+  
 </body>
 </html>
