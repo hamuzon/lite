@@ -236,27 +236,7 @@
     // 初期反映
     updateImages();
 
-    // ===== モバイル/PC自動リダイレクト =====
-    function checkRedirect() {
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-      const host = window.location.host;
 
-      if (!host.includes('lite.hamusata.f5.si') && !host.includes('m-lite.hamusata.f5.si')) return;
-
-      if (isMobile && host !== 'm-lite.hamusata.f5.si') {
-        window.location.href = 'https://m-lite.hamusata.f5.si';
-        return;
-      }
-
-      if (!isMobile && host !== 'lite.hamusata.f5.si') {
-        window.location.href = 'https://lite.hamusata.f5.si';
-        return;
-      }
-    }
-
-    window.addEventListener('load', checkRedirect);
-    window.addEventListener('resize', checkRedirect);
-    window.addEventListener('orientationchange', checkRedirect);
   </script>
 </body>
 </html>
