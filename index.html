@@ -111,6 +111,7 @@
       .works {
         grid-template-columns: 1fr;
       }
+
       section h2 {
         font-size: 1.5rem;
       }
@@ -129,7 +130,7 @@
 
   <header>
     <a href="https://hamusata.f5.si">通常版</a>
-    <a href="https://lite.hamusata.f5.si/s/">最小版</a>
+    <a href="https://www.lite.hamusata.f5.si/s/">最小版</a>
   </header>
 
   <a href="https://hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
@@ -195,10 +196,13 @@
     // ===== バナー画像設定 =====
     function setBannerImage(show) {
       const banner = document.getElementById('bannerImg');
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+      const isMobile =
+        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
       const url = isMobile
         ? 'https://m.hamusata.f5.si/banner_icon_hamusata.png'
         : 'https://hamusata.f5.si/banner_icon_hamusata.png';
+
       banner.src = show ? url : '';
     }
 
@@ -216,6 +220,7 @@
           img.loading = 'lazy';
           card.prepend(img);
         }
+
         img.style.display = show ? '' : 'none';
       });
     }
@@ -235,8 +240,40 @@
 
     // 初期反映
     updateImages();
-
-
   </script>
+
+  <script>
+    // デバイスによるリダイレクト
+    function checkRedirect() {
+      const isMobile =
+        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+        window.innerWidth <= 768;
+
+      const host = window.location.host;
+
+      if (
+        (isMobile && host === 'www.m.lite.hamusata.f5.si') ||
+        (!isMobile && host === 'www.lite.hamusata.f5.si')
+      ) {
+        return;
+      }
+
+      const path =
+        window.location.pathname +
+        window.location.search +
+        window.location.hash;
+
+      const target = isMobile
+        ? 'https://www.m.lite.hamusata.f5.si'
+        : 'https://www.lite.hamusata.f5.si';
+
+      window.location.href = target + path;
+    }
+
+    window.addEventListener('load', checkRedirect);
+    window.addEventListener('resize', checkRedirect);
+    window.addEventListener('orientationchange', checkRedirect);
+  </script>
+
 </body>
 </html>
