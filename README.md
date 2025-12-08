@@ -10,11 +10,11 @@ hamusata.f5.si の軽量版サイトです。
 ---
 
 ## PC版
-- [lite.hamusata.f5.si](http://lite.hamusata.f5.si)
-- [lite.hamusata.f5.si/s/](http://lite.hamusata.f5.si/s/)
+- [www.lite.hamusata.f5.si](https://www.lite.hamusata.f5.si)
+- [www.lite.hamusata.f5.si/s/](https://www.lite.hamusata.f5.si/s/)
 
 ---
 
 ## スマホ版
-- [m-lite.hamusata.f5.si](http://m-lite.hamusata.f5.si)
-- [m-lite.hamusata.f5.si/s/](http://m-lite.hamusata.f5.si/s/)
+- [www.m.lite.hamusata.f5.si](https://www.m.lite.hamusata.f5.si/)
+- [www.m.lite.hamusata.f5.si/s/](https://www.m.lite.hamusata.f5.si/s/)
