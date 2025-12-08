@@ -35,7 +35,7 @@
             font-weight: bold;
             margin: 0 0.5rem;
         }
-
+        
         header a:visited {
             color: #ddd;
         }
@@ -106,7 +106,7 @@
             text-decoration: none;
             border-radius: 8px;
         }
-
+        
         .work-card a:visited {
             color: #ddd;
         }
@@ -148,10 +148,9 @@
 </head>
 
 <body>
-
     <header>
         <a href="https://www.hamusata.f5.si">通常版</a>
-        <a href="https://www.lite.hamusata.f5.si/s/">最小版</a>
+        <a id="liteLink" href="/s/">最小版</a>
     </header>
 
     <a href="https://www.hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
@@ -162,15 +161,9 @@
 
     <section id="profile">
         <h2>自己紹介</h2>
-        <p style="text-align:center;">
-            こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。
-        </p>
-        <p style="text-align:center;">
-            ハムスターを飼っています。
-        </p>
-        <p style="text-align:center;">
-            ネットの海でプログラミングしたりネットしたりして過ごしてます。
-        </p>
+        <p style="text-align:center;">こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。</p>
+        <p style="text-align:center;">ハムスターを飼っています。</p>
+        <p style="text-align:center;">ネットの海でプログラミングしたりネットしたりして過ごしてます。</p>
     </section>
 
     <section id="links">
@@ -183,9 +176,12 @@
     </footer>
 
     <script>
-        // ===== PC/モバイル判定 & ドメインリダイレクト =====
+        // ===== PC/モバイル判定 =====
+        const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+        // ===== ドメインリダイレクト (PC / モバイル) =====
         (function() {
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            const isMobile = isMobileDevice();
             const currentHost = window.location.hostname.toLowerCase();
 
             if (isMobile && !currentHost.startsWith('www.m.')) {
@@ -195,11 +191,36 @@
             }
         })();
 
-        const isMobileDevice = () =>
-            /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        // ===== 画像キャッシュ関数 =====
+        const loadImageCached = (fileName, callback) => {
+            const cached = sessionStorage.getItem(fileName);
+            if (cached) {
+                callback(cached);
+                return;
+            }
 
-        // ===== 画像URL =====
-        const getAssetUrl = (fileName) => `https://hamusata.f5.si/${fileName}`;
+            const img = new Image();
+            img.onload = () => {
+                sessionStorage.setItem(fileName, img.src);
+                callback(img.src);
+            };
+            img.src = `https://hamusata.f5.si/${fileName}`;
+        };
+
+        // ===== ヘッダー「最小版」リンク更新 =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const liteLink = document.getElementById('liteLink');
+            if (!liteLink) return;
+
+            const isMobile = isMobileDevice();
+            const currentHost = window.location.hostname.toLowerCase();
+
+            if (isMobile && !currentHost.startsWith('www.m.')) {
+                liteLink.href = liteLink.href.replace(currentHost, 'www.m.' + currentHost.replace('www.', ''));
+            } else if (!isMobile && currentHost.startsWith('www.m.')) {
+                liteLink.href = liteLink.href.replace('www.m.', 'www.');
+            }
+        });
 
         // ===== ワークカードデータ =====
         const works = [
@@ -216,6 +237,7 @@
                 const card = document.createElement('div');
                 card.className = 'work-card';
                 card.dataset.filename = work.imgFileName;
+
                 card.innerHTML = `
                     <h3>${work.title}</h3>
                     <a href="${work.link}">見る / View</a>
@@ -224,27 +246,40 @@
             });
         }
 
+        // ===== 年表示更新 =====
         function updateYear() {
             const baseYear = 2025;
             const currentYear = new Date().getFullYear();
+            const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
             const yearSpan = document.getElementById('year');
-            if (yearSpan) yearSpan.textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+            if (yearSpan) yearSpan.textContent = yearText;
         }
 
         function getQueryParam(name) {
-            return new URLSearchParams(window.location.search).get(name);
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
         }
 
         // ===== 画像表示状態管理 =====
         let imagesShown = false;
         const paramShow = getQueryParam('showImages');
-        if (paramShow !== null) imagesShown = paramShow === 'true';
-        else imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
+        if (paramShow !== null) {
+            imagesShown = paramShow === 'true';
+        } else {
+            imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
+        }
 
         function setBannerImage(show) {
             const banner = document.getElementById('bannerImg');
             const bannerFileName = 'banner_icon_hamusata.png';
-            banner.src = show ? getAssetUrl(bannerFileName) : '';
+
+            if (show) {
+                loadImageCached(bannerFileName, (url) => {
+                    banner.src = url;
+                });
+            } else {
+                banner.src = '';
+            }
         }
 
         function toggleWorkImages(show) {
@@ -253,6 +288,7 @@
                 if (!imgFileName) return;
 
                 let img = card.querySelector('img');
+
                 if (show) {
                     if (!img) {
                         img = document.createElement('img');
@@ -260,9 +296,13 @@
                         img.loading = 'lazy';
                         card.prepend(img);
                     }
+
                     if (!img.src || img.src.includes('data:')) {
-                        img.src = getAssetUrl(imgFileName);
+                        loadImageCached(imgFileName, (url) => {
+                            img.src = url;
+                        });
                     }
+
                     img.style.display = '';
                 } else if (img) {
                     img.style.display = 'none';
@@ -275,18 +315,20 @@
             toggleWorkImages(imagesShown);
         }
 
+        // ===== ボタン切替処理 =====
         document.getElementById('showImages').addEventListener('click', () => {
             imagesShown = !imagesShown;
             localStorage.setItem('imagesShown', imagesShown);
             updateImages();
         });
 
+        // ===== 初期処理 =====
         document.addEventListener('DOMContentLoaded', () => {
             generateWorkCards();
             updateYear();
             updateImages();
         });
-    </script>
 
+    </script>
 </body>
 </html>
