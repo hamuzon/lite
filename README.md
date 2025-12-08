@@ -4,13 +4,13 @@ hamusata.f5.si 軽量版
 hamusata.f5.si の軽量版サイトです。
 最新の 情報は
 
-[hamusata.f5.si](https://hamusata.f5.si/)
+[hamusata.f5.si](https://www.hamusata.f5.si/)
 のほうがいいかもしれません
 
 ---
 
 ## PC版
-- [www.lite.hamusata.f5.si](https://www.lite.hamusata.f5.si)
+- [www.lite.hamusata.f5.si](https://www.lite.hamusata.f5.si/)
 - [www.lite.hamusata.f5.si/s/](https://www.lite.hamusata.f5.si/s/)
 
 ---
