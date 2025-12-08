@@ -5,111 +5,152 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HAMUSATA – Lite</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #121212;
-        color: #ddd;
-        font-family: 'Potta One', sans-serif;
-        line-height: 1.6;
-        scroll-behavior: smooth;
-    }
-    header {
-        text-align: center;
-        padding: 1rem 0;
-        position: sticky;
-        top: 0;
-        background: #121212;
-        z-index: 1000;
-    }
-    header a {
-        color: #ddd;
-        text-decoration: none;
-        font-weight: bold;
-        margin: 0 0.5rem;
-    }
-    .banner-link img {
-        display: block;
-        margin: 0 auto;
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-    }
-    section {
-        max-width: 1000px;
-        margin: 2rem auto;
-        padding: 0 1rem;
-    }
-    section h2 {
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
-        text-align: center;
-        color: #aaa;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Potta One', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #121212;
+    color: #ddd;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+header {
+    text-align: center;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #121212;
+}
+
+header a {
+    color: #ddd !important;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 0.5rem;
+}
+
+header a:visited {
+    color: #ddd !important;
+}
+
+.banner-link {
+    display: block;
+    color: #ddd !important;
+    text-decoration: none;
+}
+
+.banner-link:visited {
+    color: #ddd !important;
+}
+
+.banner-link img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    border: none;
+}
+
+section {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: #aaa;
+}
+
+.works {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.work-card {
+    background: #1f1f1f;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.work-card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 0.5rem;
+    border-radius: 50%;
+    border: 2px solid #555;
+}
+
+.work-card a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #444;
+    color: #ddd !important;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.work-card a:visited {
+    color: #ddd !important;
+}
+
+.work-card a:hover {
+    background: #555;
+    color: #fff;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #888 !important;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
     .works {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1rem;
+        grid-template-columns: 1fr;
     }
-    .work-card {
-        background: #1f1f1f;
-        padding: 1rem;
-        border-radius: 8px;
-        text-align: center;
-        transition: 0.3s;
+
+    section h2 {
+        font-size: 1.5rem;
     }
-    .work-card img {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 0.5rem;
-        border-radius: 50%;
-        border: 2px solid #555;
-        object-fit: contain;
-    }
-    .work-card a {
-        display: inline-block;
-        margin-top: 0.5rem;
-        padding: 0.5rem 1rem;
-        background: #444;
-        color: #ddd;
-        text-decoration: none;
-        border-radius: 8px;
-    }
-    .work-card a:hover {
-        background: #555;
-        color: #fff;
-    }
-    footer {
-        text-align: center;
-        padding: 2rem 1rem;
-        color: #aaa;
-        font-size: 0.9rem;
-    }
-    @media (max-width: 768px) {
-        .works {
-            grid-template-columns: 1fr;
-        }
-        section h2 {
-            font-size: 1.5rem;
-        }
-    }
-    #showImages {
-        display: block;
-        margin: 1rem auto;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-    }
+}
+
+#showImages {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
 </style>
 </head>
 <body>
-
 <header>
-    <a href="https://www.lite.hamusata.f5.si">通常版</a>
+    <a href="https://www.hamusata.f5.si">通常版</a>
     <a id="liteLink" href="/s/">最小版</a>
 </header>
 
-<a href="https://www.lite.hamusata.f5.si" class="banner-link">
+<a href="https://www.hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
     <img id="bannerImg" alt="hamusata home banner">
 </a>
 
@@ -132,77 +173,91 @@
 </footer>
 
 <script>
+// PC/モバイル判定
 const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
+// ドメインリダイレクト
 (function() {
-    const host = window.location.hostname.toLowerCase();
     const isMobile = isMobileDevice();
-    if (isMobile) {
-        if (!/^www\.m\.lite\.hamusata\.f5\.si$/.test(host) && !/^m\.lite\.hamusata\.f5\.si$/.test(host)) {
-            window.location.replace(window.location.href.replace(host, 'www.m.lite.hamusata.f5.si'));
-        }
-    } else {
-        if (!/^www\.lite\.hamusata\.f5\.si$/.test(host) && !/^lite\.hamusata\.f5\.si$/.test(host)) {
-            window.location.replace(window.location.href.replace(host, 'lite.hamusata.f5.si'));
-        }
+    const host = window.location.hostname.toLowerCase();
+    if (isMobile && !host.startsWith('www.m.')) {
+        window.location.href = window.location.href.replace(host, 'www.m.' + host.replace('www.', ''));
+    } else if (!isMobile && host.startsWith('www.m.')) {
+        window.location.href = window.location.href.replace('www.m.', 'www.');
     }
 })();
 
-const loadImageCached = async (fileName) => {
-    const cached = localStorage.getItem(fileName);
-    if (cached) return cached;
-    try {
-        const response = await fetch(`https://hamusata.f5.si/${fileName}`);
-        const blob = await response.blob();
-        const reader = new FileReader();
-        return new Promise(resolve => {
-            reader.onloadend = () => {
-                const dataURL = reader.result;
-                localStorage.setItem(fileName, dataURL);
-                resolve(dataURL);
-            };
-            reader.readAsDataURL(blob);
-        });
-    } catch {
-        return '';
-    }
+// 画像キャッシュ
+const loadImageCached = (fileName, callback) => {
+    const cached = localStorage.getItem(fileName); 
+    if (cached) { callback(cached); return; }
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        const dataURL = canvas.toDataURL('image/png');
+        localStorage.setItem(fileName, dataURL);
+        callback(dataURL);
+    };
+    img.src = `https://hamusata.f5.si/${fileName}`;
 };
 
+// 最小版リンク更新
+document.addEventListener('DOMContentLoaded', () => {
+    const liteLink = document.getElementById('liteLink');
+    if (!liteLink) return;
+    const isMobile = isMobileDevice();
+    const host = window.location.hostname.toLowerCase();
+    if (isMobile && !host.startsWith('www.m.')) {
+        liteLink.href = liteLink.href.replace(host, 'www.m.' + host.replace('www.', ''));
+    } else if (!isMobile && host.startsWith('www.m.')) {
+        liteLink.href = liteLink.href.replace('www.m.', 'www.');
+    }
+});
+
+// ワークカードデータ
 const works = [
     { title: 'hamuzon.github.io', link: 'https://hamuzon.github.io', imgFileName: 'icon.svg' },
     { title: 'home.hamusata.f5.si', link: 'https://home.hamusata.f5.si', imgFileName: 'icon.svg' },
     { title: 'www.link-s.f5.si', link: 'https://www.link-s.f5.si/', imgFileName: 'icon.svg' }
 ];
 
-let imagesShown = localStorage.getItem('imagesShown') === 'true';
-
 function generateWorkCards() {
     const container = document.getElementById('worksContainer');
-    container.innerHTML = '';
+    if (!container) return;
     works.forEach(work => {
         const card = document.createElement('div');
         card.className = 'work-card';
         card.dataset.filename = work.imgFileName;
-        card.innerHTML = `<h3>${work.title}</h3><a href="${work.link}" target="_blank">見る / View</a>`;
+        card.innerHTML = `<h3>${work.title}</h3><a href="${work.link}">見る / View</a>`;
         container.appendChild(card);
     });
 }
 
-async function setBannerImage(show) {
-    const banner = document.getElementById('bannerImg');
-    if (show) {
-        const url = await loadImageCached('banner_icon_hamusata.png');
-        if (url) banner.src = url;
-    } else {
-        banner.src = '';
-    }
+// 年表示
+function updateYear() {
+    const baseYear = 2025;
+    const currentYear = new Date().getFullYear();
+    document.getElementById('year').textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 }
 
-async function toggleWorkImages(show) {
-    const cards = document.querySelectorAll('.work-card');
-    for (const card of cards) {
+// 画像表示状態
+let imagesShown = localStorage.getItem('imagesShown') === 'true';
+
+function setBannerImage(show) {
+    const banner = document.getElementById('bannerImg');
+    if (show) loadImageCached('banner_icon_hamusata.png', url => banner.src = url);
+    else banner.src = '';
+}
+
+function toggleWorkImages(show) {
+    document.querySelectorAll('.work-card').forEach(card => {
         const fileName = card.dataset.filename;
-        if (!fileName) continue;
+        if (!fileName) return;
         let img = card.querySelector('img');
         if (show) {
             if (!img) {
@@ -211,37 +266,32 @@ async function toggleWorkImages(show) {
                 img.loading = 'lazy';
                 card.prepend(img);
             }
-            if (!img.src) img.src = await loadImageCached(fileName);
+            if (!img.src || img.src.includes('data:')) loadImageCached(fileName, url => img.src = url);
             img.style.display = '';
         } else if (img) {
             img.style.display = 'none';
         }
-    }
+    });
 }
 
-async function updateImages() {
-    await setBannerImage(imagesShown);
-    await toggleWorkImages(imagesShown);
+function updateImages() {
+    setBannerImage(imagesShown);
+    toggleWorkImages(imagesShown);
 }
 
-function updateYear() {
-    const baseYear = 2025;
-    const currentYear = new Date().getFullYear();
-    document.getElementById('year').textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
-}
-
-document.getElementById('showImages').addEventListener('click', async () => {
+// ボタン切替
+document.getElementById('showImages').addEventListener('click', () => {
     imagesShown = !imagesShown;
     localStorage.setItem('imagesShown', imagesShown);
-    await updateImages();
+    updateImages();
 });
 
-document.addEventListener('DOMContentLoaded', async () => {
+// 初期処理
+document.addEventListener('DOMContentLoaded', () => {
     generateWorkCards();
     updateYear();
-    await updateImages();
+    updateImages();
 });
 </script>
-
 </body>
 </html>
