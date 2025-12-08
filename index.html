@@ -176,35 +176,48 @@
     </footer>
 
     <script>
-        // *** 共通判定ロジック ***
-        const isMobileDevice = () => 
-            /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        // ===== PC/モバイル判定 & ドメインリダイレクト =====
+        (function() {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            const currentHost = window.location.hostname.toLowerCase();
 
-        // *** 画像アセットの動的URL生成関数 ***
+            if (isMobile && !currentHost.startsWith('www.m.')) {
+                // モバイル端末でPCドメインの場合
+                window.location.href = window.location.href.replace(currentHost, 'www.m.' + currentHost.replace('www.', ''));
+            } else if (!isMobile && currentHost.startsWith('www.m.')) {
+                // PC端末でモバイルドメインの場合
+                window.location.href = window.location.href.replace('www.m.', 'www.');
+            }
+        })();
+
+        // ===== PC/モバイル判定関数 =====
+        const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+        // ===== 画像アセットの動的URL生成関数 =====
         const getAssetUrl = (fileName) => {
             const domain = isMobileDevice() 
-                ? 'www.m.hamusata.f5.si' 
-                : 'www.hamusata.f5.si';
+                ? 'www.m.lite.hamusata.f5.si' 
+                : 'www.lite.hamusata.f5.si';
             return `https://${domain}/${fileName}`;
         };
 
+        // ===== ヘッダーの「最小版」リンクを書き換え =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const headerLinks = document.querySelectorAll('header a');
+            headerLinks.forEach(a => {
+                if (a.href.includes('www.lite.hamusata.f5.si')) {
+                    a.href = isMobileDevice() 
+                        ? a.href.replace('www.lite.hamusata.f5.si', 'www.m.lite.hamusata.f5.si')
+                        : a.href.replace('www.m.lite.hamusata.f5.si', 'www.lite.hamusata.f5.si');
+                }
+            });
+        });
+
         // ===== ワークカードデータ =====
         const works = [
-            {
-                title: 'hamuzon.github.io',
-                link: 'https://hamuzon.github.io',
-                imgFileName: 'icon.svg'
-            },
-            {
-                title: 'home.hamusata.f5.si',
-                link: 'https://home.hamusata.f5.si',
-                imgFileName: 'icon.svg'
-            },
-            {
-                title: 'www.link-s.f5.si',
-                link: 'https://www.link-s.f5.si/',
-                imgFileName: 'icon.svg'
-            }
+            { title: 'hamuzon.github.io', link: 'https://hamuzon.github.io', imgFileName: 'icon.svg' },
+            { title: 'home.hamusata.f5.si', link: 'https://home.hamusata.f5.si', imgFileName: 'icon.svg' },
+            { title: 'www.link-s.f5.si', link: 'https://www.link-s.f5.si/', imgFileName: 'icon.svg' }
         ];
 
         function generateWorkCards() {
@@ -216,10 +229,8 @@
                 card.className = 'work-card';
                 card.dataset.filename = work.imgFileName;
 
-                card.innerHTML = `
-                    <h3>${work.title}</h3>
-                    <a href="${work.link}">見る / View</a>
-                `;
+                card.innerHTML = `<h3>${work.title}</h3>
+                                  <a href="${work.link}">見る / View</a>`;
                 container.appendChild(card);
             });
         }
@@ -227,14 +238,9 @@
         function updateYear() {
             const baseYear = 2025;
             const currentYear = new Date().getFullYear();
-            const yearText = currentYear > baseYear 
-                ? `${baseYear}~${currentYear}` 
-                : `${baseYear}`;
-            
+            const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
             const yearSpan = document.getElementById('year');
-            if (yearSpan) {
-                yearSpan.textContent = yearText;
-            }
+            if (yearSpan) yearSpan.textContent = yearText;
         }
 
         function getQueryParam(name) {
@@ -244,7 +250,6 @@
 
         // ===== 画像表示状態管理 =====
         let imagesShown = false;
-
         const paramShow = getQueryParam('showImages');
         if (paramShow !== null) {
             imagesShown = paramShow === 'true';
@@ -255,11 +260,7 @@
         function setBannerImage(show) {
             const banner = document.getElementById('bannerImg');
             const bannerFileName = 'banner_icon_hamusata.png';
-            
-            const url = show
-                ? getAssetUrl(bannerFileName)
-                : '';
-
+            const url = show ? getAssetUrl(bannerFileName) : '';
             banner.src = url;
         }
 
@@ -283,10 +284,8 @@
                     }
                     img.style.display = '';
 
-                } else {
-                    if (img) {
-                        img.style.display = 'none';
-                    }
+                } else if (img) {
+                    img.style.display = 'none';
                 }
             });
         }
@@ -296,7 +295,7 @@
             toggleWorkImages(imagesShown);
         }
 
-        // ===== イベントリスナー (状態をlocalStorageに保存) =====
+        // ===== ボタン切替処理 (状態 localStorage 保存) =====
         document.getElementById('showImages').addEventListener('click', () => {
             imagesShown = !imagesShown;
             localStorage.setItem('imagesShown', imagesShown); 
@@ -309,7 +308,6 @@
             updateYear();
             updateImages();
         });
-
     </script>
 </body>
 </html>
