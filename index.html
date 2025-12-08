@@ -59,7 +59,7 @@
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-            border: none; 
+            border: none;
         }
 
         section {
@@ -219,8 +219,12 @@
         function updateYear() {
             const baseYear = 2025;
             const currentYear = new Date().getFullYear();
-            document.getElementById('year').textContent =
-                currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+            const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+            
+            const yearSpan = document.getElementById('year');
+            if (yearSpan) {
+                yearSpan.textContent = yearText;
+            }
         }
 
         // ===== URLパラメータ取得関数 =====
@@ -229,17 +233,18 @@
             return params.get(name);
         }
 
-        // ===== 画像表示状態管理 =====
+        // ===== 画像表示状態管理 (再読み込みで状態を保持) =====
         let imagesShown = false;
 
         const paramShow = getQueryParam('showImages');
         if (paramShow !== null) {
             imagesShown = paramShow === 'true';
         } else {
+            // localStorageから状態をロード
             imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
         }
 
-        // ===== バナー画像設定 =====
+        // ===== バナー画像設定  =====
         function setBannerImage(show) {
             const banner = document.getElementById('bannerImg');
             const isMobile =
@@ -254,7 +259,7 @@
             banner.src = url;
         }
 
-        // ===== 画像表示/非表示 =====
+        // ===== ワーク画像表示/非表示 =====
         function toggleWorkImages(show) {
             document.querySelectorAll('.work-card').forEach(card => {
                 const imgUrl = card.dataset.img;
@@ -270,8 +275,7 @@
                         card.prepend(img);
                     }
 
-
-                    if (!img.src) {
+                    if (!img.src || img.src.includes('data:')) {
                         img.src = imgUrl; 
                     }
                     img.style.display = '';
@@ -290,53 +294,20 @@
             toggleWorkImages(imagesShown);
         }
 
-        // ===== ボタンで切替 =====
+        // ===== ボタン切替処理 (状態　localStorage 保存) =====
         document.getElementById('showImages').addEventListener('click', () => {
             imagesShown = !imagesShown;
-            localStorage.setItem('imagesShown', imagesShown);
+            localStorage.setItem('imagesShown', imagesShown); 
             updateImages();
         });
         
-        // ===== デバイス判定リダイレクト  =====
-        function checkRedirect() {
-            const isMobile =
-                /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
-                window.innerWidth <= 768;
-
-            const host = window.location.host;
-
-            // hamusata.f5.si 系リダイレクト
-            if (!host.includes('hamusata.f5.si')) return; 
-
-            if (
-                (isMobile && host === 'www.m.lite.hamusata.f5.si') ||
-                (!isMobile && host === 'www.lite.hamusata.f5.si')
-            ) {
-                return;
-            }
-
-            const path =
-                window.location.pathname +
-                window.location.search +
-                window.location.hash;
-
-            const target = isMobile
-                ? 'https://www.m.lite.hamusata.f5.si'
-                : 'https://www.lite.hamusata.f5.si';
-
-            window.location.href = target + path;
-        }
-
         // ===== 初期処理 =====
         document.addEventListener('DOMContentLoaded', () => {
-            generateWorkCards();
-            updateYear();
-            updateImages();
+            generateWorkCards(); // ワークカード生成
+            updateYear();        // 年号更新
+            updateImages();      // 画像の初期反映
         });
 
-        window.addEventListener('load', checkRedirect);
-        window.addEventListener('resize', checkRedirect);
-        window.addEventListener('orientationchange', checkRedirect);
     </script>
 
 </body>
