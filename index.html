@@ -14,7 +14,6 @@
         line-height: 1.6;
         scroll-behavior: smooth;
     }
-
     header {
         text-align: center;
         padding: 1rem 0;
@@ -23,14 +22,12 @@
         background: #121212;
         z-index: 1000;
     }
-
     header a {
         color: #ddd;
         text-decoration: none;
         font-weight: bold;
         margin: 0 0.5rem;
     }
-
     .banner-link img {
         display: block;
         margin: 0 auto;
@@ -39,26 +36,22 @@
         border-radius: 8px;
         box-shadow: 0 4px 16px rgba(0,0,0,0.18);
     }
-
     section {
         max-width: 1000px;
         margin: 2rem auto;
         padding: 0 1rem;
     }
-
     section h2 {
         font-size: 1.8rem;
         margin-bottom: 1rem;
         text-align: center;
         color: #aaa;
     }
-
     .works {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 1rem;
     }
-
     .work-card {
         background: #1f1f1f;
         padding: 1rem;
@@ -66,15 +59,14 @@
         text-align: center;
         transition: 0.3s;
     }
-
     .work-card img {
         width: 80px;
         height: 80px;
         margin-bottom: 0.5rem;
         border-radius: 50%;
         border: 2px solid #555;
+        object-fit: contain;
     }
-
     .work-card a {
         display: inline-block;
         margin-top: 0.5rem;
@@ -84,19 +76,16 @@
         text-decoration: none;
         border-radius: 8px;
     }
-
     .work-card a:hover {
         background: #555;
         color: #fff;
     }
-
     footer {
         text-align: center;
         padding: 2rem 1rem;
         color: #aaa;
         font-size: 0.9rem;
     }
-
     @media (max-width: 768px) {
         .works {
             grid-template-columns: 1fr;
@@ -105,7 +94,6 @@
             font-size: 1.5rem;
         }
     }
-
     #showImages {
         display: block;
         margin: 1rem auto;
@@ -144,97 +132,77 @@
 </footer>
 
 <script>
-// モバイル判定
 const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
-// PC/Mobile ドメイン振り分け
 (function() {
     const host = window.location.hostname.toLowerCase();
     const isMobile = isMobileDevice();
     if (isMobile) {
         if (!/^www\.m\.lite\.hamusata\.f5\.si$/.test(host) && !/^m\.lite\.hamusata\.f5\.si$/.test(host)) {
-            window.location.href = window.location.href.replace(host, 'www.m.lite.hamusata.f5.si');
+            window.location.replace(window.location.href.replace(host, 'www.m.lite.hamusata.f5.si'));
         }
     } else {
         if (!/^www\.lite\.hamusata\.f5\.si$/.test(host) && !/^lite\.hamusata\.f5\.si$/.test(host)) {
-            window.location.href = window.location.href.replace(host, 'lite.hamusata.f5.si');
+            window.location.replace(window.location.href.replace(host, 'lite.hamusata.f5.si'));
         }
     }
 })();
 
-// 画像キャッシュ読み込み
-const loadImageCached = (fileName, callback) => {
+const loadImageCached = async (fileName) => {
     const cached = localStorage.getItem(fileName);
-    if (cached) {
-        callback(cached);
-        return;
+    if (cached) return cached;
+    try {
+        const response = await fetch(`https://hamusata.f5.si/${fileName}`);
+        const blob = await response.blob();
+        const reader = new FileReader();
+        return new Promise(resolve => {
+            reader.onloadend = () => {
+                const dataURL = reader.result;
+                localStorage.setItem(fileName, dataURL);
+                resolve(dataURL);
+            };
+            reader.readAsDataURL(blob);
+        });
+    } catch {
+        return '';
     }
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-        try {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            canvas.getContext('2d').drawImage(img, 0, 0);
-            const dataURL = canvas.toDataURL('image/png');
-            localStorage.setItem(fileName, dataURL);
-            callback(dataURL);
-        } catch(e) {
-            console.warn('Canvas error, using original URL', e);
-            localStorage.setItem(fileName, img.src);
-            callback(img.src);
-        }
-    };
-    img.onerror = () => {
-        console.error('画像読み込み失敗:', fileName);
-    };
-    img.src = `https://hamusata.f5.si/${fileName}`;
 };
 
-// 作品データ
 const works = [
     { title: 'hamuzon.github.io', link: 'https://hamuzon.github.io', imgFileName: 'icon.svg' },
     { title: 'home.hamusata.f5.si', link: 'https://home.hamusata.f5.si', imgFileName: 'icon.svg' },
     { title: 'www.link-s.f5.si', link: 'https://www.link-s.f5.si/', imgFileName: 'icon.svg' }
 ];
 
-// 画像表示フラグ
 let imagesShown = localStorage.getItem('imagesShown') === 'true';
 
-// カード生成
 function generateWorkCards() {
     const container = document.getElementById('worksContainer');
+    container.innerHTML = '';
     works.forEach(work => {
         const card = document.createElement('div');
         card.className = 'work-card';
         card.dataset.filename = work.imgFileName;
-        card.innerHTML = `<h3>${work.title}</h3><a href="${work.link}">見る / View</a>`;
+        card.innerHTML = `<h3>${work.title}</h3><a href="${work.link}" target="_blank">見る / View</a>`;
         container.appendChild(card);
     });
 }
 
-// バナー画像表示
-function setBannerImage(show) {
+async function setBannerImage(show) {
     const banner = document.getElementById('bannerImg');
     if (show) {
-        if (!banner.dataset.cached) {
-            loadImageCached('banner_icon_hamusata.png', (url) => {
-                banner.src = url;
-                banner.dataset.cached = 'true';
-            });
-        }
+        const url = await loadImageCached('banner_icon_hamusata.png');
+        if (url) banner.src = url;
     } else {
         banner.src = '';
     }
 }
 
-// 作品画像表示
-function toggleWorkImages(show) {
-    document.querySelectorAll('.work-card').forEach(card => {
-        const imgFileName = card.dataset.filename;
-        if (!imgFileName) return;
-
+async function toggleWorkImages(show) {
+    const cards = document.querySelectorAll('.work-card');
+    for (const card of cards) {
+        const fileName = card.dataset.filename;
+        if (!fileName) continue;
         let img = card.querySelector('img');
         if (show) {
             if (!img) {
@@ -243,45 +211,35 @@ function toggleWorkImages(show) {
                 img.loading = 'lazy';
                 card.prepend(img);
             }
-            if (!img.dataset.cached) {
-                loadImageCached(imgFileName, (url) => {
-                    img.src = url;
-                    img.dataset.cached = 'true';
-                });
-            }
+            if (!img.src) img.src = await loadImageCached(fileName);
             img.style.display = '';
         } else if (img) {
             img.style.display = 'none';
         }
-    });
+    }
 }
 
-// 画像更新
-function updateImages() {
-    setBannerImage(imagesShown);
-    toggleWorkImages(imagesShown);
+async function updateImages() {
+    await setBannerImage(imagesShown);
+    await toggleWorkImages(imagesShown);
 }
 
-// ボタンイベント
-document.getElementById('showImages').addEventListener('click', () => {
-    imagesShown = !imagesShown;
-    localStorage.setItem('imagesShown', imagesShown);
-    updateImages();
-});
-
-// 年更新
 function updateYear() {
     const baseYear = 2025;
     const currentYear = new Date().getFullYear();
-    const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
-    document.getElementById('year').textContent = yearText;
+    document.getElementById('year').textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 }
 
-// 初期化
-document.addEventListener('DOMContentLoaded', () => {
+document.getElementById('showImages').addEventListener('click', async () => {
+    imagesShown = !imagesShown;
+    localStorage.setItem('imagesShown', imagesShown);
+    await updateImages();
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
     generateWorkCards();
     updateYear();
-    updateImages();
+    await updateImages();
 });
 </script>
 
