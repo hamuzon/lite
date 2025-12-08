@@ -178,26 +178,36 @@
     </footer>
 
     <script>
+        // *** 共通判定ロジック ***
+        const isMobileDevice = () => 
+            /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+        // *** 画像アセットの動的URL生成関数 ***
+        const getAssetUrl = (fileName) => {
+            const domain = isMobileDevice() ? 'www.m.hamusata.f5.si' : 'www.hamusata.f5.si';
+            return `https://${domain}/${fileName}`;
+        };
+
         // ===== ワークカードデータ =====
         const works = [
             {
                 title: 'hamuzon.github.io',
                 link: 'https://hamuzon.github.io',
-                img: 'https://www.hamusata.f5.si/icon.svg'
+                imgFileName: 'icon.svg'
             },
             {
                 title: 'home.hamusata.f5.si',
                 link: 'https://home.hamusata.f5.si',
-                img: 'https://www.hamusata.f5.si/icon.svg'
+                imgFileName: 'icon.svg'
             },
             {
                 title: 'www.link-s.f5.si',
                 link: 'https://www.link-s.f5.si/',
-                img: 'https://www.hamusata.f5.si/icon.svg'
+                imgFileName: 'icon.svg'
             }
         ];
 
-        // ===== ワークカード生成関数 =====
+        // ===== ワークカード生成関数  =====
         function generateWorkCards() {
             const container = document.getElementById('worksContainer');
             if (!container) return;
@@ -205,7 +215,7 @@
             works.forEach(work => {
                 const card = document.createElement('div');
                 card.className = 'work-card';
-                card.dataset.img = work.img;
+                card.dataset.filename = work.imgFileName; 
 
                 card.innerHTML = `
                     <h3>${work.title}</h3>
@@ -233,37 +243,34 @@
             return params.get(name);
         }
 
-        // ===== 画像表示状態管理 (再読み込みで状態を保持) =====
+        // ===== 画像表示状態管理 =====
         let imagesShown = false;
 
         const paramShow = getQueryParam('showImages');
         if (paramShow !== null) {
             imagesShown = paramShow === 'true';
         } else {
-            // localStorageから状態をロード
             imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
         }
 
-        // ===== バナー画像設定  =====
+        // ===== バナー画像設定 =====
         function setBannerImage(show) {
             const banner = document.getElementById('bannerImg');
-            const isMobile =
-                /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
-
+            
+            const bannerFileName = 'banner_icon_hamusata.png';
+            
             const url = show
-                ? (isMobile 
-                    ? 'https://www.m.hamusata.f5.si/banner_icon_hamusata.png'
-                    : 'https://www.hamusata.f5.si/banner_icon_hamusata.png')
+                ? getAssetUrl(bannerFileName)
                 : '';
 
             banner.src = url;
         }
 
-        // ===== ワーク画像表示/非表示 =====
+        // ===== ワーク画像表示/非表=====
         function toggleWorkImages(show) {
             document.querySelectorAll('.work-card').forEach(card => {
-                const imgUrl = card.dataset.img;
-                if (!imgUrl) return;
+                const imgFileName = card.dataset.filename; 
+                if (!imgFileName) return;
 
                 let img = card.querySelector('img');
 
@@ -276,7 +283,7 @@
                     }
 
                     if (!img.src || img.src.includes('data:')) {
-                        img.src = imgUrl; 
+                        img.src = getAssetUrl(imgFileName); 
                     }
                     img.style.display = '';
 
@@ -294,7 +301,7 @@
             toggleWorkImages(imagesShown);
         }
 
-        // ===== ボタン切替処理 (状態　localStorage 保存) =====
+        // ===== ボタン切替処理 (状態 localStorage 保存) =====
         document.getElementById('showImages').addEventListener('click', () => {
             imagesShown = !imagesShown;
             localStorage.setItem('imagesShown', imagesShown); 
