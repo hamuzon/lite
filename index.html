@@ -14,6 +14,7 @@
         line-height: 1.6;
         scroll-behavior: smooth;
     }
+
     header {
         text-align: center;
         padding: 1rem 0;
@@ -22,12 +23,14 @@
         background: #121212;
         z-index: 1000;
     }
+
     header a {
         color: #ddd;
         text-decoration: none;
         font-weight: bold;
         margin: 0 0.5rem;
     }
+
     .banner-link img {
         display: block;
         margin: 0 auto;
@@ -36,22 +39,26 @@
         border-radius: 8px;
         box-shadow: 0 4px 16px rgba(0,0,0,0.18);
     }
+
     section {
         max-width: 1000px;
         margin: 2rem auto;
         padding: 0 1rem;
     }
+
     section h2 {
         font-size: 1.8rem;
         margin-bottom: 1rem;
         text-align: center;
         color: #aaa;
     }
+
     .works {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         gap: 1rem;
     }
+
     .work-card {
         background: #1f1f1f;
         padding: 1rem;
@@ -59,6 +66,7 @@
         text-align: center;
         transition: 0.3s;
     }
+
     .work-card img {
         width: 80px;
         height: 80px;
@@ -66,6 +74,7 @@
         border-radius: 50%;
         border: 2px solid #555;
     }
+
     .work-card a {
         display: inline-block;
         margin-top: 0.5rem;
@@ -75,16 +84,19 @@
         text-decoration: none;
         border-radius: 8px;
     }
+
     .work-card a:hover {
         background: #555;
         color: #fff;
     }
+
     footer {
         text-align: center;
         padding: 2rem 1rem;
         color: #aaa;
         font-size: 0.9rem;
     }
+
     @media (max-width: 768px) {
         .works {
             grid-template-columns: 1fr;
@@ -93,6 +105,7 @@
             font-size: 1.5rem;
         }
     }
+
     #showImages {
         display: block;
         margin: 1rem auto;
@@ -131,8 +144,10 @@
 </footer>
 
 <script>
+// モバイル判定
 const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
+// PC/Mobile ドメイン振り分け
 (function() {
     const host = window.location.hostname.toLowerCase();
     const isMobile = isMobileDevice();
@@ -147,6 +162,7 @@ const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgen
     }
 })();
 
+// 画像キャッシュ読み込み
 const loadImageCached = (fileName, callback) => {
     const cached = localStorage.getItem(fileName);
     if (cached) {
@@ -154,26 +170,39 @@ const loadImageCached = (fileName, callback) => {
         return;
     }
     const img = new Image();
+    img.crossOrigin = 'anonymous';
     img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        canvas.getContext('2d').drawImage(img, 0, 0);
-        const dataURL = canvas.toDataURL('image/png');
-        localStorage.setItem(fileName, dataURL);
-        callback(dataURL);
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL('image/png');
+            localStorage.setItem(fileName, dataURL);
+            callback(dataURL);
+        } catch(e) {
+            console.warn('Canvas error, using original URL', e);
+            localStorage.setItem(fileName, img.src);
+            callback(img.src);
+        }
+    };
+    img.onerror = () => {
+        console.error('画像読み込み失敗:', fileName);
     };
     img.src = `https://hamusata.f5.si/${fileName}`;
 };
 
+// 作品データ
 const works = [
     { title: 'hamuzon.github.io', link: 'https://hamuzon.github.io', imgFileName: 'icon.svg' },
     { title: 'home.hamusata.f5.si', link: 'https://home.hamusata.f5.si', imgFileName: 'icon.svg' },
     { title: 'www.link-s.f5.si', link: 'https://www.link-s.f5.si/', imgFileName: 'icon.svg' }
 ];
 
+// 画像表示フラグ
 let imagesShown = localStorage.getItem('imagesShown') === 'true';
 
+// カード生成
 function generateWorkCards() {
     const container = document.getElementById('worksContainer');
     works.forEach(work => {
@@ -185,19 +214,27 @@ function generateWorkCards() {
     });
 }
 
+// バナー画像表示
 function setBannerImage(show) {
     const banner = document.getElementById('bannerImg');
     if (show) {
-        loadImageCached('banner_icon_hamusata.png', (url) => banner.src = url);
+        if (!banner.dataset.cached) {
+            loadImageCached('banner_icon_hamusata.png', (url) => {
+                banner.src = url;
+                banner.dataset.cached = 'true';
+            });
+        }
     } else {
         banner.src = '';
     }
 }
 
+// 作品画像表示
 function toggleWorkImages(show) {
     document.querySelectorAll('.work-card').forEach(card => {
         const imgFileName = card.dataset.filename;
         if (!imgFileName) return;
+
         let img = card.querySelector('img');
         if (show) {
             if (!img) {
@@ -206,8 +243,11 @@ function toggleWorkImages(show) {
                 img.loading = 'lazy';
                 card.prepend(img);
             }
-            if (!img.src || img.src.includes('data:')) {
-                loadImageCached(imgFileName, (url) => img.src = url);
+            if (!img.dataset.cached) {
+                loadImageCached(imgFileName, (url) => {
+                    img.src = url;
+                    img.dataset.cached = 'true';
+                });
             }
             img.style.display = '';
         } else if (img) {
@@ -216,17 +256,20 @@ function toggleWorkImages(show) {
     });
 }
 
+// 画像更新
 function updateImages() {
     setBannerImage(imagesShown);
     toggleWorkImages(imagesShown);
 }
 
+// ボタンイベント
 document.getElementById('showImages').addEventListener('click', () => {
     imagesShown = !imagesShown;
     localStorage.setItem('imagesShown', imagesShown);
     updateImages();
 });
 
+// 年更新
 function updateYear() {
     const baseYear = 2025;
     const currentYear = new Date().getFullYear();
@@ -234,6 +277,7 @@ function updateYear() {
     document.getElementById('year').textContent = yearText;
 }
 
+// 初期化
 document.addEventListener('DOMContentLoaded', () => {
     generateWorkCards();
     updateYear();
