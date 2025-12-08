@@ -204,7 +204,7 @@ const loadImageCached = (fileName, callback) => {
         localStorage.setItem(fileName, dataURL);
         callback(dataURL);
     };
-    img.src = `/${fileName}`;
+    img.src = `https://hamusata.f5.si/${fileName}`;
 };
 
 const cacheFavicon = () => {
