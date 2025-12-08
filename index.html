@@ -59,7 +59,7 @@
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
-            border: none;
+            border: none; 
         }
 
         section {
@@ -178,7 +178,7 @@
     </footer>
 
     <script>
-        // ===== ワークカードデータ=====
+        // ===== ワークカードデータ =====
         const works = [
             {
                 title: 'hamuzon.github.io',
@@ -245,29 +245,42 @@
             const isMobile =
                 /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
-            const url = isMobile
-                ? 'https://www.m.hamusata.f5.si/banner_icon_hamusata.png'
-                : 'https://www.hamusata.f5.si/banner_icon_hamusata.png';
+            const url = show
+                ? (isMobile 
+                    ? 'https://www.m.hamusata.f5.si/banner_icon_hamusata.png'
+                    : 'https://www.hamusata.f5.si/banner_icon_hamusata.png')
+                : '';
 
-            banner.src = show ? url : '';
+            banner.src = url;
         }
 
-        // ===== ワーク画像表示/非表示 =====
+        // ===== 画像表示/非表示 =====
         function toggleWorkImages(show) {
             document.querySelectorAll('.work-card').forEach(card => {
                 const imgUrl = card.dataset.img;
                 if (!imgUrl) return;
 
                 let img = card.querySelector('img');
-                if (!img) {
-                    img = document.createElement('img');
-                    img.src = imgUrl;
-                    img.alt = card.querySelector('h3').textContent;
-                    img.loading = 'lazy';
-                    card.prepend(img);
-                }
 
-                img.style.display = show ? '' : 'none';
+                if (show) {
+                    if (!img) {
+                        img = document.createElement('img');
+                        img.alt = card.querySelector('h3').textContent;
+                        img.loading = 'lazy';
+                        card.prepend(img);
+                    }
+
+
+                    if (!img.src) {
+                        img.src = imgUrl; 
+                    }
+                    img.style.display = '';
+
+                } else {
+                    if (img) {
+                        img.style.display = 'none';
+                    }
+                }
             });
         }
 
@@ -284,7 +297,7 @@
             updateImages();
         });
         
-        // ===== デバイスダイレクト =====
+        // ===== デバイス判定リダイレクト  =====
         function checkRedirect() {
             const isMobile =
                 /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
@@ -292,7 +305,7 @@
 
             const host = window.location.host;
 
-            // hamusata.f5.si 系列のみリダイレクト
+            // hamusata.f5.si 系リダイレクト
             if (!host.includes('hamusata.f5.si')) return; 
 
             if (
@@ -311,13 +324,12 @@
                 ? 'https://www.m.lite.hamusata.f5.si'
                 : 'https://www.lite.hamusata.f5.si';
 
-            // クライアント側リダイレクト
             window.location.href = target + path;
         }
 
         // ===== 初期処理 =====
         document.addEventListener('DOMContentLoaded', () => {
-            generateWorkCards(); 
+            generateWorkCards();
             updateYear();
             updateImages();
         });
