@@ -56,7 +56,7 @@ header a:visited {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
     border: none;
 }
 
@@ -143,8 +143,12 @@ footer a {
     cursor: pointer;
 }
 </style>
+
+<link rel="icon" href="https://hamusata.f5.si/favicon.ico">
 </head>
+
 <body>
+
 <header>
     <a href="https://www.hamusata.f5.si">通常版</a>
     <a id="liteLink" href="/s/">最小版</a>
@@ -173,10 +177,8 @@ footer a {
 </footer>
 
 <script>
-// PC/モバイル判定
 const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
-// ドメインリダイレクト
 (function() {
     const isMobile = isMobileDevice();
     const host = window.location.hostname.toLowerCase();
@@ -187,7 +189,6 @@ const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgen
     }
 })();
 
-// 画像キャッシュ
 const loadImageCached = (fileName, callback) => {
     const cached = localStorage.getItem(fileName); 
     if (cached) { callback(cached); return; }
@@ -206,7 +207,6 @@ const loadImageCached = (fileName, callback) => {
     img.src = `https://hamusata.f5.si/${fileName}`;
 };
 
-// 最小版リンク更新
 document.addEventListener('DOMContentLoaded', () => {
     const liteLink = document.getElementById('liteLink');
     if (!liteLink) return;
@@ -219,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ワークカードデータ
 const works = [
     { title: 'hamuzon.github.io', link: 'https://hamuzon.github.io', imgFileName: 'icon.svg' },
     { title: 'home.hamusata.f5.si', link: 'https://home.hamusata.f5.si', imgFileName: 'icon.svg' },
@@ -238,14 +237,12 @@ function generateWorkCards() {
     });
 }
 
-// 年表示
 function updateYear() {
     const baseYear = 2025;
     const currentYear = new Date().getFullYear();
     document.getElementById('year').textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
 }
 
-// 画像表示状態
 let imagesShown = localStorage.getItem('imagesShown') === 'true';
 
 function setBannerImage(show) {
@@ -279,19 +276,18 @@ function updateImages() {
     toggleWorkImages(imagesShown);
 }
 
-// ボタン切替
 document.getElementById('showImages').addEventListener('click', () => {
     imagesShown = !imagesShown;
     localStorage.setItem('imagesShown', imagesShown);
     updateImages();
 });
 
-// 初期処理
 document.addEventListener('DOMContentLoaded', () => {
     generateWorkCards();
     updateYear();
     updateImages();
 });
 </script>
+
 </body>
 </html>
