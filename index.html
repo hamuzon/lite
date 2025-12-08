@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAMUSATA – Lite版ホームページ</title>
+    <title>HAMUSATA – Lite</title>
     <style>
         * {
             margin: 0;
@@ -148,7 +148,6 @@
 </head>
 
 <body>
-
     <header>
         <a href="https://www.hamusata.f5.si">通常版</a>
         <a href="https://www.lite.hamusata.f5.si/s/">最小版</a>
@@ -169,8 +168,7 @@
 
     <section id="links">
         <h2>リンク集</h2>
-        <div class="works" id="worksContainer">
-            </div>
+        <div class="works" id="worksContainer"></div>
     </section>
 
     <footer>
@@ -184,7 +182,9 @@
 
         // *** 画像アセットの動的URL生成関数 ***
         const getAssetUrl = (fileName) => {
-            const domain = isMobileDevice() ? 'www.m.hamusata.f5.si' : 'www.hamusata.f5.si';
+            const domain = isMobileDevice() 
+                ? 'www.m.hamusata.f5.si' 
+                : 'www.hamusata.f5.si';
             return `https://${domain}/${fileName}`;
         };
 
@@ -207,7 +207,6 @@
             }
         ];
 
-        // ===== ワークカード生成関数  =====
         function generateWorkCards() {
             const container = document.getElementById('worksContainer');
             if (!container) return;
@@ -215,7 +214,7 @@
             works.forEach(work => {
                 const card = document.createElement('div');
                 card.className = 'work-card';
-                card.dataset.filename = work.imgFileName; 
+                card.dataset.filename = work.imgFileName;
 
                 card.innerHTML = `
                     <h3>${work.title}</h3>
@@ -224,12 +223,13 @@
                 container.appendChild(card);
             });
         }
-        
-        // ===== 年自動更新 =====
+
         function updateYear() {
             const baseYear = 2025;
             const currentYear = new Date().getFullYear();
-            const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
+            const yearText = currentYear > baseYear 
+                ? `${baseYear}~${currentYear}` 
+                : `${baseYear}`;
             
             const yearSpan = document.getElementById('year');
             if (yearSpan) {
@@ -237,7 +237,6 @@
             }
         }
 
-        // ===== URLパラメータ取得関数 =====
         function getQueryParam(name) {
             const params = new URLSearchParams(window.location.search);
             return params.get(name);
@@ -253,10 +252,8 @@
             imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
         }
 
-        // ===== バナー画像設定 =====
         function setBannerImage(show) {
             const banner = document.getElementById('bannerImg');
-            
             const bannerFileName = 'banner_icon_hamusata.png';
             
             const url = show
@@ -266,10 +263,9 @@
             banner.src = url;
         }
 
-        // ===== ワーク画像表示/非表=====
         function toggleWorkImages(show) {
             document.querySelectorAll('.work-card').forEach(card => {
-                const imgFileName = card.dataset.filename; 
+                const imgFileName = card.dataset.filename;
                 if (!imgFileName) return;
 
                 let img = card.querySelector('img');
@@ -295,13 +291,12 @@
             });
         }
 
-        // ===== 表示状態反映 =====
         function updateImages() {
             setBannerImage(imagesShown);
             toggleWorkImages(imagesShown);
         }
 
-        // ===== ボタン切替処理 (状態 localStorage 保存) =====
+        // ===== イベントリスナー (状態をlocalStorageに保存) =====
         document.getElementById('showImages').addEventListener('click', () => {
             imagesShown = !imagesShown;
             localStorage.setItem('imagesShown', imagesShown); 
@@ -310,12 +305,11 @@
         
         // ===== 初期処理 =====
         document.addEventListener('DOMContentLoaded', () => {
-            generateWorkCards(); // ワークカード生成
-            updateYear();        // 年号更新
-            updateImages();      // 画像の初期反映
+            generateWorkCards();
+            updateYear();
+            updateImages();
         });
 
     </script>
-
 </body>
 </html>
