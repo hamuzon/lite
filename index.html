@@ -194,12 +194,7 @@
         const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
         // ===== 画像アセットの動的URL生成関数 =====
-        const getAssetUrl = (fileName) => {
-            const domain = isMobileDevice() 
-                ? 'www.m.lite.hamusata.f5.si' 
-                : 'www.lite.hamusata.f5.si';
-            return `https://${domain}/${fileName}`;
-        };
+        const getAssetUrl = (fileName) => `https://hamusata.f5.si/${fileName}`;
 
         // ===== ヘッダーの「最小版」リンクを書き換え =====
         document.addEventListener('DOMContentLoaded', () => {
@@ -229,8 +224,10 @@
                 card.className = 'work-card';
                 card.dataset.filename = work.imgFileName;
 
-                card.innerHTML = `<h3>${work.title}</h3>
-                                  <a href="${work.link}">見る / View</a>`;
+                card.innerHTML = `
+                    <h3>${work.title}</h3>
+                    <a href="${work.link}">見る / View</a>
+                `;
                 container.appendChild(card);
             });
         }
@@ -260,8 +257,7 @@
         function setBannerImage(show) {
             const banner = document.getElementById('bannerImg');
             const bannerFileName = 'banner_icon_hamusata.png';
-            const url = show ? getAssetUrl(bannerFileName) : '';
-            banner.src = url;
+            banner.src = show ? getAssetUrl(bannerFileName) : '';
         }
 
         function toggleWorkImages(show) {
@@ -278,12 +274,10 @@
                         img.loading = 'lazy';
                         card.prepend(img);
                     }
-
                     if (!img.src || img.src.includes('data:')) {
-                        img.src = getAssetUrl(imgFileName); 
+                        img.src = getAssetUrl(imgFileName);
                     }
                     img.style.display = '';
-
                 } else if (img) {
                     img.style.display = 'none';
                 }
@@ -295,14 +289,12 @@
             toggleWorkImages(imagesShown);
         }
 
-        // ===== ボタン切替処理 (状態 localStorage 保存) =====
         document.getElementById('showImages').addEventListener('click', () => {
             imagesShown = !imagesShown;
             localStorage.setItem('imagesShown', imagesShown); 
             updateImages();
         });
-        
-        // ===== 初期処理 =====
+
         document.addEventListener('DOMContentLoaded', () => {
             generateWorkCards();
             updateYear();
