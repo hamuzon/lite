@@ -35,7 +35,7 @@
             font-weight: bold;
             margin: 0 0.5rem;
         }
-        
+
         header a:visited {
             color: #ddd;
         }
@@ -106,7 +106,7 @@
             text-decoration: none;
             border-radius: 8px;
         }
-        
+
         .work-card a:visited {
             color: #ddd;
         }
@@ -148,6 +148,7 @@
 </head>
 
 <body>
+
     <header>
         <a href="https://www.hamusata.f5.si">通常版</a>
         <a href="https://www.lite.hamusata.f5.si/s/">最小版</a>
@@ -161,9 +162,15 @@
 
     <section id="profile">
         <h2>自己紹介</h2>
-        <p style="text-align:center;">こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。</p>
-        <p style="text-align:center;">ハムスターを飼っています。</p>
-        <p style="text-align:center;">ネットの海でプログラミングしたりネットしたりして過ごしてます。</p>
+        <p style="text-align:center;">
+            こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。
+        </p>
+        <p style="text-align:center;">
+            ハムスターを飼っています。
+        </p>
+        <p style="text-align:center;">
+            ネットの海でプログラミングしたりネットしたりして過ごしてます。
+        </p>
     </section>
 
     <section id="links">
@@ -182,31 +189,17 @@
             const currentHost = window.location.hostname.toLowerCase();
 
             if (isMobile && !currentHost.startsWith('www.m.')) {
-                // モバイル端末でPCドメインの場合
                 window.location.href = window.location.href.replace(currentHost, 'www.m.' + currentHost.replace('www.', ''));
             } else if (!isMobile && currentHost.startsWith('www.m.')) {
-                // PC端末でモバイルドメインの場合
                 window.location.href = window.location.href.replace('www.m.', 'www.');
             }
         })();
 
-        // ===== PC/モバイル判定関数 =====
-        const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        const isMobileDevice = () =>
+            /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
-        // ===== 画像アセットの動的URL生成関数 =====
+        // ===== 画像URL =====
         const getAssetUrl = (fileName) => `https://hamusata.f5.si/${fileName}`;
-
-        // ===== ヘッダーの「最小版」リンクを書き換え =====
-        document.addEventListener('DOMContentLoaded', () => {
-            const headerLinks = document.querySelectorAll('header a');
-            headerLinks.forEach(a => {
-                if (a.href.includes('www.lite.hamusata.f5.si')) {
-                    a.href = isMobileDevice() 
-                        ? a.href.replace('www.lite.hamusata.f5.si', 'www.m.lite.hamusata.f5.si')
-                        : a.href.replace('www.m.lite.hamusata.f5.si', 'www.lite.hamusata.f5.si');
-                }
-            });
-        });
 
         // ===== ワークカードデータ =====
         const works = [
@@ -223,7 +216,6 @@
                 const card = document.createElement('div');
                 card.className = 'work-card';
                 card.dataset.filename = work.imgFileName;
-
                 card.innerHTML = `
                     <h3>${work.title}</h3>
                     <a href="${work.link}">見る / View</a>
@@ -235,24 +227,19 @@
         function updateYear() {
             const baseYear = 2025;
             const currentYear = new Date().getFullYear();
-            const yearText = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
             const yearSpan = document.getElementById('year');
-            if (yearSpan) yearSpan.textContent = yearText;
+            if (yearSpan) yearSpan.textContent = currentYear > baseYear ? `${baseYear}~${currentYear}` : `${baseYear}`;
         }
 
         function getQueryParam(name) {
-            const params = new URLSearchParams(window.location.search);
-            return params.get(name);
+            return new URLSearchParams(window.location.search).get(name);
         }
 
         // ===== 画像表示状態管理 =====
         let imagesShown = false;
         const paramShow = getQueryParam('showImages');
-        if (paramShow !== null) {
-            imagesShown = paramShow === 'true';
-        } else {
-            imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
-        }
+        if (paramShow !== null) imagesShown = paramShow === 'true';
+        else imagesShown = localStorage.getItem('imagesShown') === 'true' || false;
 
         function setBannerImage(show) {
             const banner = document.getElementById('bannerImg');
@@ -266,7 +253,6 @@
                 if (!imgFileName) return;
 
                 let img = card.querySelector('img');
-
                 if (show) {
                     if (!img) {
                         img = document.createElement('img');
@@ -291,7 +277,7 @@
 
         document.getElementById('showImages').addEventListener('click', () => {
             imagesShown = !imagesShown;
-            localStorage.setItem('imagesShown', imagesShown); 
+            localStorage.setItem('imagesShown', imagesShown);
             updateImages();
         });
 
@@ -301,5 +287,6 @@
             updateImages();
         });
     </script>
+
 </body>
 </html>
