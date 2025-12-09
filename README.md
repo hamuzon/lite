@@ -2,7 +2,7 @@
 hamusata.f5.si 軽量版
 
 hamusata.f5.si の軽量版サイトです。
-最新の 情報は
+最低限のlink等何で情報は
 
 [hamusata.f5.si](https://www.hamusata.f5.si/)
 のほうがいいかもしれません
