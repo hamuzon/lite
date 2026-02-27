@@ -3,6 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#121212">
+<meta name="description" content="hamusata サイト軽量版">
+<meta name="keywords" content="hamusata,hamusata.f5.si,軽量版,Lite,低通信量,PWA">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.lite.hamusata.f5.si/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="HAMUSATA – Lite">
+<meta property="og:description" content="hamusata サイト軽量版">
+<meta property="og:url" content="https://www.lite.hamusata.f5.si/">
+<meta property="og:site_name" content="HAMUSATA Lite">
 <title>HAMUSATA – Lite</title>
 <style>
 * {
@@ -18,6 +28,11 @@ body {
     color: #ddd;
     line-height: 1.6;
     scroll-behavior: smooth;
+}
+
+main {
+    width: min(100%, 1000px);
+    margin: 0 auto;
 }
 
 header {
@@ -141,10 +156,30 @@ footer a {
     margin: 1rem auto;
     padding: 0.5rem 1rem;
     cursor: pointer;
+    background: #2e2e2e;
+    color: #e6e6e6;
+    border: 1px solid #4b4b4b;
+    border-radius: 8px;
+}
+
+#showImages:hover,
+#showImages:focus-visible {
+    background: #404040;
+}
+
+@media (max-width: 480px) {
+    header {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        padding: 0.75rem;
+    }
 }
 </style>
 
 <link id="faviconLink" rel="icon" href="/favicon.ico">
+<link rel="manifest" href="/manifest.webmanifest">
 </head>
 
 <body>
@@ -153,6 +188,8 @@ footer a {
     <a href="https://www.hamusata.f5.si">通常版</a>
     <a id="liteLink" href="/s/">最小版</a>
 </header>
+
+<main>
 
 <a href="https://www.hamusata.f5.si" class="banner-link" aria-label="HAMUSATA ホームへ移動">
     <img id="bannerImg" alt="hamusata home banner">
@@ -176,8 +213,11 @@ footer a {
     &copy; <span id="year"></span> HAMUSATA – Lite版ホームページ
 </footer>
 
+</main>
+
 <script>
 const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+const shouldReduceData = navigator.connection?.saveData || false;
 
 (function() {
     const isMobile = isMobileDevice();
@@ -253,6 +293,9 @@ function updateYear() {
 }
 
 let imagesShown = localStorage.getItem('imagesShown') === 'true';
+if (shouldReduceData && localStorage.getItem('imagesShown') === null) {
+    imagesShown = false;
+}
 
 function setBannerImage(show) {
     const banner = document.getElementById('bannerImg');
@@ -295,6 +338,12 @@ document.addEventListener('DOMContentLoaded', () => {
     generateWorkCards();
     updateYear();
     updateImages();
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+            /* no-op */
+        });
+    }
 });
 </script>
 
