@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#121212">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HAMUSATA Lite">
 <meta name="description" content="hamusata サイト軽量版">
 <meta name="keywords" content="hamusata,hamusata.f5.si,軽量版,Lite,低通信量,PWA">
 <meta name="robots" content="index,follow">
@@ -71,6 +75,20 @@ header a {
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.03);
     transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+#installApp {
+    color: var(--text);
+    background: #1f3e6b;
+    border: 1px solid #335b8c;
+    border-radius: 999px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+#installApp[hidden] {
+    display: none;
 }
 
 header a:hover,
@@ -232,6 +250,7 @@ footer a {
 <header>
     <a href="https://www.hamusata.f5.si">通常版</a>
     <a id="liteLink" href="/s/">最小版</a>
+    <button id="installApp" hidden>アプリをインストール</button>
 </header>
 
 <main>
@@ -389,6 +408,27 @@ document.addEventListener('DOMContentLoaded', () => {
             /* no-op */
         });
     }
+});
+
+let deferredPrompt;
+const installButton = document.getElementById('installApp');
+
+window.addEventListener('beforeinstallprompt', (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    installButton.hidden = false;
+});
+
+installButton?.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    installButton.hidden = true;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+});
+
+window.addEventListener('appinstalled', () => {
+    installButton.hidden = true;
 });
 </script>
 

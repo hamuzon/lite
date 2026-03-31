@@ -1,5 +1,5 @@
-const CACHE_NAME = 'hamusata-lite-v1';
-const OFFLINE_URLS = ['/', '/index.html', '/s/', '/s/index.html', '/manifest.webmanifest', '/favicon.ico'];
+const CACHE_NAME = 'hamusata-lite-v2';
+const OFFLINE_URLS = ['/', '/index.html', '/s/', '/s/index.html', '/manifest.webmanifest', '/favicon.ico', '/sw.js'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -17,6 +17,22 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const cloned = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, cloned));
+          return response;
+        })
+        .catch(() => {
+          const path = new URL(event.request.url).pathname;
+          return caches.match(path.startsWith('/s') ? '/s/index.html' : '/index.html');
+        })
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cached) => {
