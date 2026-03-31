@@ -160,9 +160,10 @@
         window.innerWidth <= 768;
 
       const host = window.location.host;
-      const isHamusataDomain = host.toLowerCase().includes('hamusata.f5.si');
+      const normalizedHost = host.toLowerCase();
+      const isHamusataSubdomain = normalizedHost.endsWith('.hamusata.f5.si');
 
-      if (!isHamusataDomain) {
+      if (!isHamusataSubdomain) {
         return;
       }
 
@@ -171,7 +172,7 @@
 
       const expectedHost = isMobile ? targetMobile : targetDesktop;
 
-      if (host.toLowerCase() === expectedHost.toLowerCase()) {
+      if (normalizedHost === expectedHost.toLowerCase()) {
         return;
       }
 

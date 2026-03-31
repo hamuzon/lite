@@ -267,10 +267,12 @@ footer a {
 <script>
 const isMobileDevice = () => /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 const shouldReduceData = navigator.connection?.saveData || false;
+const isHamusataSubdomain = (host) => host.endsWith('.hamusata.f5.si');
 
 (function() {
     const isMobile = isMobileDevice();
     const host = window.location.hostname.toLowerCase();
+    if (!isHamusataSubdomain(host)) return;
     if (isMobile && !host.startsWith('www.m.')) {
         window.location.href = window.location.href.replace(host, 'www.m.' + host.replace('www.', ''));
     } else if (!isMobile && host.startsWith('www.m.')) {
@@ -310,6 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!liteLink) return;
     const isMobile = isMobileDevice();
     const host = window.location.hostname.toLowerCase();
+    if (!isHamusataSubdomain(host)) return;
     if (isMobile && !host.startsWith('www.m.')) {
         liteLink.href = liteLink.href.replace(host, 'www.m.' + host.replace('www.', ''));
     } else if (!isMobile && host.startsWith('www.m.')) {
