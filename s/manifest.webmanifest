@@ -1,0 +1,23 @@
+{
+  "id": "/s/",
+  "name": "HAMUSATA Lite 最小版",
+  "short_name": "Lite 最小版",
+  "description": "通信量を最小化したHAMUSATAの最小版サイト",
+  "start_url": "/s/",
+  "scope": "/s/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48 64x64 96x96 128x128 256x256",
+      "type": "image/x-icon"
+    }
+  ]
+}

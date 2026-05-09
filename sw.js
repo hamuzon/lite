@@ -1,5 +1,5 @@
 const CACHE_NAME = 'hamusata-lite-v2';
-const OFFLINE_URLS = ['/', '/index.html', '/s/', '/s/index.html', '/manifest.webmanifest', '/favicon.ico', '/sw.js'];
+const OFFLINE_URLS = ['/', '/index.html', '/s/', '/s/index.html', '/manifest.webmanifest', '/s/manifest.webmanifest', '/favicon.ico', '/sw.js'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
