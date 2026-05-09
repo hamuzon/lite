@@ -1,7 +1,7 @@
 {
   "id": "/",
   "name": "HAMUSATA Lite",
-  "short_name": "HAMUSATA",
+  "short_name": "HAMUSATA Lite",
   "description": "通信量を抑えたHAMUSATAの軽量サイト",
   "start_url": "/",
   "scope": "/",
