@@ -1,7 +1,7 @@
 {
   "id": "/",
   "name": "HAMUSATA Lite",
-  "short_name": "HAMUSATA Lite",
+  "short_name": "HAMUSATA",
   "description": "通信量を抑えたHAMUSATAの軽量サイト",
   "start_url": "/",
   "scope": "/",
@@ -11,8 +11,14 @@
   "background_color": "#121212",
   "theme_color": "#121212",
   "lang": "ja",
+  "dir": "ltr",
   "categories": ["productivity", "utilities"],
   "shortcuts": [
+    {
+      "name": "軽量版トップを開く",
+      "short_name": "軽量版",
+      "url": "/"
+    },
     {
       "name": "最小版を開く",
       "short_name": "最小版",
