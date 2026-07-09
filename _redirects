@@ -1,9 +1,9 @@
 # ===== X / Twitter =====
 /x           https://x.com/hamu_sata   301
-/x-1         https://x.com/hamu_sata   301
+/x-1         https://x.com/hamu_sata  301
 /twt         https://x.com/hamu_sata   301
 /twitter     https://x.com/hamu_sata   301
-/twitter-1   https://x.com/hamu_sata   301
+/twitter-1   https://x.com/i/user/1797783565670952960   301
 
 # ===== Scratch =====
 /s           https://scratch.mit.edu/users/hamusata   301
@@ -37,9 +37,34 @@
 /index.html     /        301
 /LICENSE        /        301
 /README.md      /        301
-/go             /links   301
-/go/            /links   301
-/link           /links   301
-/link/          /links   301
-/mutual_Links   /links   301
-/mutual_Links/  /links   301
+/go             https://hamusata.f5.si/links   301
+/go/            https://hamusata.f5.si/links   301
+/link           https://hamusata.f5.si/links   301
+/link/          https://hamusata.f5.si/links   301
+/mutual_Links   https://hamusata.f5.si/links   301
+/mutual_Links/  https://hamusata.f5.si/links   301
+/terms https://hamusata.f5.si/terms-and-privacy 301
+/privacy https://hamusata.f5.si/terms-and-privacy 301
+
+# ===== Tanzaku =====
+/wish           https://hamusata.f5.si/tanzaku/        301
+/wish-2025      https://hamusata.f5.si/tanzaku/2025/   301
+/wish-2026      https://hamusata.f5.si/tanzaku/2026/   301
+
+# ===== Social Analytics =====
+/dc   /?utm_source=discord&utm_medium=social   302
+/bky  /?utm_source=bluesky&utm_medium=social   302
+/tx   /?utm_source=twitter&utm_medium=social   302
+/lit  /?utm_source=litlink&utm_medium=social   302
+/tre  /?utm_source=linktree&utm_medium=social  302
+
+/ig   /?utm_source=instagram&utm_medium=social   302
+/fb   /?utm_source=facebook&utm_medium=social    302
+/th   /?utm_source=threads&utm_medium=social     302
+/meta /?utm_source=meta&utm_medium=social        302
+
+/nos  /?utm_source=nostr&utm_medium=social   302
+
+# ===== sitemap =====
+/sitemap.xml   https://home.hamusata.f5.si/public/hamusata.f5.si-sitemap.xml   301
+/sitemap       https://home.hamusata.f5.si/public/hamusata.f5.si-sitemap.xml   301
