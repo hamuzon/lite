@@ -62,8 +62,13 @@ header {
     top: 0;
     z-index: 1000;
     background: rgba(18, 18, 18, 0.92);
+    -webkit-backdrop-filter: blur(6px);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.text-center {
+    text-align: center;
 }
 
 header a {
@@ -229,8 +234,8 @@ footer a {
 </style>
 
 <link id="faviconLink" rel="icon" href="/favicon.ico">
-<link rel="manifest" href="/manifest.webmanifest">
-</head>
+    <link rel="apple-touch-icon" href="/favicon.ico">
+    <link rel="manifest" href="/manifest.webmanifest">
 
 <body>
 
@@ -249,9 +254,9 @@ footer a {
 
 <section id="profile">
     <h2>自己紹介</h2>
-    <p style="text-align:center;">こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。</p>
-    <p style="text-align:center;">ハムスターを飼っています。</p>
-    <p style="text-align:center;">ネットの海でプログラミングしたりネットしたりして過ごしてます。</p>
+    <p class="text-center">こんにちは、hamusataです。webサイトを作ったりネットをしてるネットの海の住民。</p>
+    <p class="text-center">ハムスターが好きな人。</p>
+    <p class="text-center">ネットの海でプログラミングしたりネットしたりして過ごしてます。</p>
 </section>
 
 <section id="links">
